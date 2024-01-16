@@ -34,7 +34,7 @@ class LLMTrainer:
         """
         train_dataset = load_dataset(path=self.train_dataset_path, split="train"
         )
-        eval_dataset = load_dataset(path=self.eval_dataset_path, split="train"
+        eval_dataset = load_dataset(path=self.eval_dataset_path, split="eval"
         )
         return train_dataset, eval_dataset
 
