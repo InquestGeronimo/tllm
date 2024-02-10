@@ -37,6 +37,8 @@ class LLMTrainer:
         self.model_id = model_id
         self.dataset_id = dataset_id
         
+        self.max_length = 340
+        
         self.bnb_config = BitsAndBytesConfig(
             load_in_4bit=True,
             bnb_4bit_use_double_quant=True,
@@ -129,7 +131,7 @@ class LLMTrainer:
             result = tokenizer(
                 prompt,
                 truncation=True,
-                max_length=340,
+                max_length=self.max_length,
                 padding="max_length",
             )
             result["labels"] = result["input_ids"].copy()
