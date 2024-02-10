@@ -29,8 +29,9 @@ class LLMTrainer:
     """
 
     def __init__(
-        self, model_id, dataset_id
+        self, project_name, model_id, dataset_id
     ):
+        self.project_name = project_name
         self.model_id = model_id
         self.dataset_id = dataset_id
         
@@ -40,6 +41,27 @@ class LLMTrainer:
             bnb_4bit_quant_type="nf4",
             bnb_4bit_compute_dtype=torch.bfloat16,
         )
+
+        self.args = TrainingArguments(
+                output_dir="./output",
+                warmup_steps=1,
+                per_device_train_batch_size=2,
+                gradient_accumulation_steps=1,
+                gradient_checkpointing=True,
+                max_steps=10,
+                learning_rate=2.5e-5,
+                bf16=True,
+                optim="paged_adamw_8bit",
+                logging_dir="./logs",
+                save_strategy="steps",
+                save_steps=10,
+                evaluation_strategy="steps",
+                eval_steps=2,
+                do_eval=True,
+                report_to="wandb",
+                remove_unused_columns=True,
+                run_name=f"{self.project_name}-{datetime.now().strftime('%Y-%m-%d-%H-%M')}",
+            )
 
     def load_datasets(self):
         """
@@ -84,15 +106,15 @@ class LLMTrainer:
             return result
         
         def generate_and_tokenize_prompt(data_point):
-            full_prompt =f"""Given a target sentence construct the underlying meaning representation of the input sentence as a single function with attributes and attribute values.
-        This function should describe the target string accurately and the function must be one of the following ['inform', 'request', 'give_opinion', 'confirm', 'verify_attribute', 'suggest', 'request_explanation', 'recommend', 'request_attribute'].
-        The attributes must be one of the following: ['name', 'exp_release_date', 'release_year', 'developer', 'esrb', 'rating', 'genres', 'player_perspective', 'has_multiplayer', 'platforms', 'available_on_steam', 'has_linux_release', 'has_mac_release', 'specifier']
+            full_prompt =f"""Given a sentence in natural language, construct a cypher statement in order to extract information from a knowledge graph.
+        The graph will have the following schema:
+        {data_point["schema"]}
 
-        ### Target sentence:
-        {data_point["target"]}
+        ### cypher statement:
+        {data_point["output"]}
 
-        ### Meaning representation:
-        {data_point["meaning_representation"]}
+        ### sentence:
+        {data_point["input"]}
         """
             return tokenize(full_prompt)
         
@@ -126,43 +148,20 @@ class LLMTrainer:
         model = accelerator.prepare_model(model)
         return model
 
-    def setup_training(self, model, tokenizer, train_dataset, eval_dataset):
+    def configure_training(self, model, tokenizer, train_dataset, eval_dataset):
         """
         Set up the training configuration using Transformers Trainer.
         """
         if torch.cuda.device_count() > 1:
             model.is_parallelizable = True
             model.model_parallel = True
-
-        project = "model-finetune"
-        run_name = "llama2-7b-" + project
-
         tokenizer.pad_token = tokenizer.eos_token
 
         trainer = transformers.Trainer(
             model=model,
             train_dataset=train_dataset,
             eval_dataset=eval_dataset,
-            args=TrainingArguments(
-                output_dir="./output",
-                warmup_steps=1,
-                per_device_train_batch_size=2,
-                gradient_accumulation_steps=1,
-                gradient_checkpointing=True,
-                max_steps=500,
-                learning_rate=2.5e-5,
-                bf16=True,
-                optim="paged_adamw_8bit",
-                logging_dir="./logs",
-                save_strategy="steps",
-                save_steps=50,
-                evaluation_strategy="steps",
-                eval_steps=50,
-                do_eval=True,
-                report_to="wandb",
-                remove_unused_columns=True,
-                run_name=f"{run_name}-{datetime.now().strftime('%Y-%m-%d-%H-%M')}",
-            ),
+            args=self.args,
             data_collator=DataCollatorForLanguageModeling(tokenizer, mlm=False),
         )
 
