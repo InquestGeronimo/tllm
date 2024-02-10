@@ -1,15 +1,23 @@
+import os
+from datetime import datetime
 import torch
-from transformers import AutoTokenizer, AutoModelForCausalLM, BitsAndBytesConfig, TrainingArguments, DataCollatorForLanguageModeling
+from transformers import (
+    AutoTokenizer, 
+    AutoModelForCausalLM, 
+    BitsAndBytesConfig, 
+    TrainingArguments, 
+    DataCollatorForLanguageModeling
+)
 from datasets import load_dataset
 from peft import prepare_model_for_kbit_training, LoraConfig, get_peft_model
 import wandb
-import os
 import transformers
-from datetime import datetime
 from peft import PeftModel
 
 from accelerate import FullyShardedDataParallelPlugin, Accelerator
 from torch.distributed.fsdp.fully_sharded_data_parallel import FullOptimStateDictConfig, FullStateDictConfig
+
+from .utils import PromptHandler
 
 fsdp_plugin = FullyShardedDataParallelPlugin(
     state_dict_config=FullStateDictConfig(offload_to_cpu=True, rank0_only=False),
@@ -23,14 +31,12 @@ class LLMTrainer:
     A class for fine-tuning and generating text with the Llama 2 7B model.
 
     Args:
-        base_model_id (str): The identifier for the base Llama 2 7B model from Hugging Face.
-        train_dataset_path (str): The stub of the training dataset on HF Hub.
-        eval_dataset_path (str): The stub of the evaluation dataset on HF Hub.
+        project_name (str): Name of the project for organization and tracking.
+        model_id (str): Identifier for the base model from Hugging Face.
+        dataset_id (str): Identifier for the dataset used for training and evaluation.
     """
 
-    def __init__(
-        self, project_name, model_id, dataset_id
-    ):
+    def __init__(self, project_name, model_id, dataset_id):
         self.project_name = project_name
         self.model_id = model_id
         self.dataset_id = dataset_id
@@ -43,41 +49,39 @@ class LLMTrainer:
         )
 
         self.args = TrainingArguments(
-                output_dir="./output",
-                warmup_steps=1,
-                per_device_train_batch_size=2,
-                gradient_accumulation_steps=1,
-                gradient_checkpointing=True,
-                max_steps=10,
-                learning_rate=2.5e-5,
-                bf16=True,
-                optim="paged_adamw_8bit",
-                logging_dir="./logs",
-                save_strategy="steps",
-                save_steps=10,
-                evaluation_strategy="steps",
-                eval_steps=2,
-                do_eval=True,
-                report_to="wandb",
-                remove_unused_columns=True,
-                run_name=f"{self.project_name}-{datetime.now().strftime('%Y-%m-%d-%H-%M')}",
-            )
+            output_dir="./output",
+            warmup_steps=1,
+            per_device_train_batch_size=2,
+            gradient_accumulation_steps=1,
+            gradient_checkpointing=True,
+            max_steps=10,
+            learning_rate=2.5e-5,
+            bf16=True,
+            optim="paged_adamw_8bit",
+            logging_dir="./logs",
+            save_strategy="steps",
+            save_steps=10,
+            evaluation_strategy="steps",
+            eval_steps=2,
+            do_eval=True,
+            report_to="wandb",
+            remove_unused_columns=True,
+            run_name=f"{self.project_name}-{datetime.now().strftime('%Y-%m-%d-%H-%M')}",
+        )
 
     def load_datasets(self):
         """
-        Load training and evaluation datasets.
+        Load the training and evaluation datasets from the specified dataset ID.
         """
-        train_dataset = load_dataset(path=self.dataset_id, split="train"
-        )
-        eval_dataset = load_dataset(path=self.dataset_id, split="validation"
-        )
+        train_dataset = load_dataset(path=self.dataset_id, split="train")
+        eval_dataset = load_dataset(path=self.dataset_id, split="validation")
+        
         return train_dataset, eval_dataset
 
     def load_model_and_tokenizer(self):
         """
-        Prepare the model for fine-tuning with QLoRA.
+        Load the base model and tokenizer for the Llama 2 7B model from Hugging Face.
         """
-
         model = AutoModelForCausalLM.from_pretrained(
             self.model_id, quantization_config=self.bnb_config, trust_remote_code=True,
         )
@@ -92,7 +96,17 @@ class LLMTrainer:
         return model, tokenizer
     
     def create_prompts_from_datasets(self, tokenizer, train_data, eval_data):
-        
+        """
+        Create and tokenize prompts from the datasets.
+
+        Args:
+            tokenizer: The tokenizer to be used for tokenizing the prompts.
+            train_data: The training dataset.
+            eval_data: The evaluation dataset.
+
+        Returns:
+            Tuple of tokenized training and evaluation datasets.
+        """
         tokenizer.pad_token = tokenizer.eos_token
 
         def tokenize(prompt):
@@ -103,20 +117,11 @@ class LLMTrainer:
                 padding="max_length",
             )
             result["labels"] = result["input_ids"].copy()
+            
             return result
         
-        def generate_and_tokenize_prompt(data_point):
-            full_prompt =f"""Given a sentence in natural language, construct a cypher statement in order to extract information from a knowledge graph.
-        The graph will have the following schema:
-        {data_point["schema"]}
-
-        ### cypher statement:
-        {data_point["output"]}
-
-        ### sentence:
-        {data_point["input"]}
-        """
-            return tokenize(full_prompt)
+        def generate_and_tokenize_prompt(doc):
+            return tokenize(PromptHandler.set_prompt(doc))
         
         tokenized_train_dataset = train_data.map(generate_and_tokenize_prompt)
         tokenized_eval_dataset = eval_data.map(generate_and_tokenize_prompt)
@@ -124,6 +129,15 @@ class LLMTrainer:
         return tokenized_train_dataset, tokenized_eval_dataset
 
     def configure_lora(self, model):
+        """
+        Configure the model with Lora settings for fine-tuning.
+
+        Args:
+            model: The model to be configured.
+
+        Returns:
+            The configured model.
+        """
         model = prepare_model_for_kbit_training(model)
 
         config = LoraConfig(
@@ -151,6 +165,15 @@ class LLMTrainer:
     def configure_training(self, model, tokenizer, train_dataset, eval_dataset):
         """
         Set up the training configuration using Transformers Trainer.
+
+        Args:
+            model: The model to be trained.
+            tokenizer: The tokenizer to be used during training.
+            train_dataset: The dataset to be used for training.
+            eval_dataset: The dataset to be used for evaluation.
+
+        Returns:
+            Configured trainer object.
         """
         if torch.cuda.device_count() > 1:
             model.is_parallelizable = True
@@ -174,11 +197,13 @@ class LLMTrainer:
         return trainer
     
     def train_model(self, trainer):
-            """
-            Run the fine-tuning training on LLM.
-            """
-            trainer.train()
+        """
+        Run the fine-tuning training on LLM.
 
+        Args:
+            trainer: The trainer object configured for model training.
+        """
+        trainer.train()
 
     def load_finetuned_model(self, checkpoint_path):
         """
