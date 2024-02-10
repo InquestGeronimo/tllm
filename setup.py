@@ -22,6 +22,8 @@ DEPENDENCIES = [
     "datasets>=2.15.0",
     "peft>=0.6.2",
     "transformers>=4.35.2",
+    "wandb>=0.16.1",
+    "scipy>=1.11.4"
 ]
 KEYWORDS = ["llms", "training", "fine-tuning", "LLM", "NLP"]
 CLASSIFIERS = [

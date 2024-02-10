@@ -12,19 +12,15 @@ from datasets import load_dataset
 from peft import prepare_model_for_kbit_training, LoraConfig, get_peft_model
 import wandb
 import transformers
-from peft import PeftModel
+from .utils import PromptHandler
 
 from accelerate import FullyShardedDataParallelPlugin, Accelerator
 from torch.distributed.fsdp.fully_sharded_data_parallel import FullOptimStateDictConfig, FullStateDictConfig
-
-from .utils import PromptHandler
 
 fsdp_plugin = FullyShardedDataParallelPlugin(
     state_dict_config=FullStateDictConfig(offload_to_cpu=True, rank0_only=False),
     optim_state_dict_config=FullOptimStateDictConfig(offload_to_cpu=True, rank0_only=False),
 )
-
-accelerator = Accelerator(fsdp_plugin=fsdp_plugin)
 
 class LLMTrainer:
     """
@@ -47,6 +43,24 @@ class LLMTrainer:
             bnb_4bit_quant_type="nf4",
             bnb_4bit_compute_dtype=torch.bfloat16,
         )
+        
+        self.lora_config = LoraConfig(
+            r=8,
+            lora_alpha=16,
+            target_modules=[
+                "q_proj",
+                "k_proj",
+                "v_proj",
+                "o_proj",
+                "gate_proj",
+                "up_proj",
+                "down_proj",
+                "lm_head",
+            ],
+            bias="none",
+            lora_dropout=0.05,
+            task_type="CAUSAL_LM",
+        )
 
         self.args = TrainingArguments(
             output_dir="./output",
@@ -68,6 +82,8 @@ class LLMTrainer:
             remove_unused_columns=True,
             run_name=f"{self.project_name}-{datetime.now().strftime('%Y-%m-%d-%H-%M')}",
         )
+        
+        self.accelerator = Accelerator(fsdp_plugin=fsdp_plugin)
 
     def load_datasets(self):
         """
@@ -138,28 +154,10 @@ class LLMTrainer:
         Returns:
             The configured model.
         """
+        model.gradient_checkpointing_enable()
         model = prepare_model_for_kbit_training(model)
-
-        config = LoraConfig(
-            r=8,
-            lora_alpha=16,
-            target_modules=[
-                "q_proj",
-                "k_proj",
-                "v_proj",
-                "o_proj",
-                "gate_proj",
-                "up_proj",
-                "down_proj",
-                "lm_head",
-            ],
-            bias="none",
-            lora_dropout=0.05,
-            task_type="CAUSAL_LM",
-        )
-
-        model = get_peft_model(model, config)
-        model = accelerator.prepare_model(model)
+        model = get_peft_model(model, self.lora_config)
+        model = self.accelerator.prepare_model(model)
         return model
 
     def configure_training(self, model, tokenizer, train_dataset, eval_dataset):
@@ -204,30 +202,3 @@ class LLMTrainer:
             trainer: The trainer object configured for model training.
         """
         trainer.train()
-
-    def load_finetuned_model(self, checkpoint_path):
-        """
-        Load the fine-tuned model checkpoint.
-
-        Args:
-            checkpoint_path (str): The path to the checkpoint directory.
-        """
-        self.ft_model = PeftModel.from_pretrained(self.base_model, checkpoint_path)
-
-    def generate_text(self, eval_prompt):
-        """
-        Generate text using the fine-tuned model.
-
-        Args:
-            eval_prompt (str): The prompt for text generation.
-
-        Returns: 
-            str: The generated text.
-        """
-        model_input = self.tokenizer(eval_prompt, return_tensors="pt").to("cuda")
-        self.ft_model.eval()
-        with torch.no_grad():
-            return self.tokenizer.decode(
-                self.ft_model.generate(**model_input, max_new_tokens=300)[0],
-                skip_special_tokens=True,
-            )
