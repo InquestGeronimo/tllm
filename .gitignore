@@ -165,3 +165,4 @@ test.py
 ec2_config.yaml
 .ruff*
 *.csv
+/output
