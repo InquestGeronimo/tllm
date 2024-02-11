@@ -51,13 +51,18 @@ tuner = CypherTuner(
 tuner.train()
 ```
 
-# HyperParameter Configuration <img align="center" width="30" height="29" src="https://media.giphy.com/media/3o85xmYEd5Ml5zT6QU/giphy.gif">
+# HyperParameter Configuration <img align="center" width="30" height="29" src="https://media.giphy.com/media/FhE5Og89nRTpt4QCet/giphy.gif">
 
-Hyperparameter configuration and LoRA settings can be particularly challenging for those new to AI engineering. This repository aims to reduce reliance on hyperparameters, yet it's beneficial to have a solid understanding of them before training, especially if you plan to adjust them yourself.
 
-The three primary factors influencing hyperparameters during training are dataset size, model type and size, and the type and amount of available hardware. After the Text-2-Cypher dataset has completed being crowdsourced, we will conduct multiple training runs for us to get a good understanding of baseline hyperparameters that perform well, expediting the fine-tuning process using CypherTune.
+Configuring hyperparameters and LoRA settings can be a complex task, especially for those new to AI engineering. Our repository is designed to lessen the dependence on hyperparameters. For instance, once the Text-2-Cypher dataset is fully crowdsourced, we will undertake multiple training sessions. This will help us establish a set of baseline hyperparameters that are known to yield good results, thereby streamlining the fine-tuning process with CypherTune. However, having a thorough understanding of these hyperparameters is still advantageous, particularly if you intend to modify them yourself during training.
 
-The CypherTune's hyperparameters can be found in the constructor of the `CypherTuner` class in the `train.py` module.
+Three key factors that affect hyperparameters in training are:
+
+1. The size of the dataset.
+2. The type and size of the model.
+3. The kind and quantity of hardware available.
+
+For specifics on CypherTune's hyperparameters, you can refer to the `CypherTuner` class constructor within the [train.py](https://github.com/InquestGeronimo/cyphertune/blob/main/cyphertune/train.py) module. This should provide detailed insights into the default configuration used in the tuning process.
 
 The first set is regarding [LoRA](https://huggingface.co/docs/peft/en/package_reference/lora) or the adapter:
 
@@ -103,6 +108,6 @@ The 2nd set of parameters is for the training job itself:
   do_eval=True,                        # Whether to run evaluation on the validation set.
   report_to="wandb",                   # Tool to use for logging and tracking (Weights & Biases in this case).
   remove_unused_columns=True,          # Whether to remove columns not used by the model when using a dataset.
-  run_name=f"run-name",                # Name of the experiment run, usually containing the project name and timestamp.
+  run_name="run-name",                 # Name of the experiment run, usually containing the project name and timestamp.
 ```
 The provided parameters, while not comprehensive, cover the most critical ones for fine-tuning. Particularly, `per_device_train_batch_size` and `learning_rate` are the most sensitive and influential during this process.
