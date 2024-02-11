@@ -26,6 +26,7 @@ TODO
 
 > - Table storing hyperparameter configurations for select training job environments (i.e. depending on dataset size, model type/size and amount/type of compute).
 > - Model eval functionality post-training.
+> - Make dataset headers dynamic, right now they are static.
 > - Fully Sharded Data Parallel (FSDP): Utilizes efficient training across distributed systems.
 
 # Install <img align="center" width="30" height="29" src="https://media.giphy.com/media/sULKEgDMX8LcI/giphy.gif">
@@ -58,7 +59,7 @@ The three primary factors influencing hyperparameters during training are datase
 
 The CypherTune's hyperparameters can be found in the constructor of the `CypherTuner` class in the `train.py` module.
 
-The first set is regarding [LoRA](https://huggingface.co/docs/peft/en/package_reference/lora) or the adapter.
+The first set is regarding [LoRA](https://huggingface.co/docs/peft/en/package_reference/lora) or the adapter:
 
 ```py
   # LoRA configuration settings
