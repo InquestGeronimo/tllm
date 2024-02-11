@@ -16,11 +16,11 @@ Contributions and participation in this crowdsourcing effort is welcomed! If you
 
 CypherTune streamlines the training process by abstracting several libraries from the Hugging Face ecosystem. It currently offers the following features:
 
-- **Model Fine-Tuning**: Fine-tune LLMs with custom text-to-cypher datasets from 🤗.
+- **Model Fine-Tuning**: Fine-tunes LLMs using HF's `Trainer` for custom text-to-Cypher datasets stored in the [Hub](https://huggingface.co/datasets).
 - **Bits and Bytes**: Optimizes model performance with 4-bit quantization.
-- **QLoRA**: Fine-tuning using LoRA, a popular and lightweight training technique that significantly reduces the number of trainable parameters.
+- **QLoRA**: Fine-tuning using LoRA, a popular and lightweight training technique that significantly reduces the number of trainable parameters. It works by quantizing the precision of the weight parameters in the pre trained LLM to 4-bit precision lowerign the barrier for amount of compute during training.
 - **Prompt Template**: Doc conversion into a prompt template for fine-tuning.
-- **Weights & Biases Integration**: Track and log your experiments using wandb. (optional)
+- **Weights & Biases Integration**: Track and log your experiments using wandb.
 
 TODO
 
