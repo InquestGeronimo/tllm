@@ -80,6 +80,8 @@ The first set is regarding [LoRA](https://huggingface.co/docs/peft/en/package_re
   task_type="CAUSAL_LM" # Specifies the type of task. Here, it indicates the model is for causal language modeling.
 ```
 
+For further detail, refer to the PEFT [documentation](https://huggingface.co/docs/peft/en/package_reference/lora) on LoRA
+
 The 2nd set of parameters is for the training job itself:
 
 ```py
@@ -103,3 +105,4 @@ The 2nd set of parameters is for the training job itself:
   remove_unused_columns=True,          # Whether to remove columns not used by the model when using a dataset.
   run_name=f"run-name",                # Name of the experiment run, usually containing the project name and timestamp.
 ```
+The provided parameters, while not comprehensive, cover the most critical ones for fine-tuning. Particularly, `per_device_train_batch_size` and `learning_rate` are the most sensitive and influential during this process.
