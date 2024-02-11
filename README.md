@@ -36,7 +36,7 @@ pip install cyphertune
 
 # Start Training <img align="center" width="30" height="29" src="https://media.giphy.com/media/QLcCBdBemDIqpbK6jA/giphy.gif">
 
-To start training, initialize the `CypherTuner` class from the script. Pass along your project name, Hugging Face model and dataset stubs. This trainer expects you to have a `train` and `validation` split for your dataset. Here is a placeholder [example](https://huggingface.co/datasets/zeroshot/text-2-cypher) of the dataset format the trainer is expecting to receive.
+To start training, the minimum requirement is to pass a `project name`, and your Hugging Face `model`/`dataset` stubs. The trainer expects your datset to have a `train` and `validation` split prior to training. Here is a placeholder [example](https://huggingface.co/datasets/zeroshot/text-2-cypher) of the dataset format the trainer is expecting to receive.
 
 ```py
 from cyphertune import CypherTuner
