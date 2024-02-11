@@ -6,7 +6,7 @@
   ⚠️<em>Under Active Development</em> ⚠️
 </h5>
 
-**CypherTune** is a compact and encapsulated Python library designed to fine-tune large language models (LLMs) specifically for text-2-Cypher tasks. [Cypher](https://neo4j.com/developer/cypher/), the graph query language utilized by Neo4j, is renowned for its efficiency in data retrieval from knowledge graphs. Its user-friendly nature, drawing parallels with SQL, is attributed to an intuitive syntax that resonates well with those familiar with traditional programming languages.
+**CypherTune** is an encapsulated Python library designed to fine-tune large language models (LLMs) specifically for text-2-Cypher tasks. [Cypher](https://neo4j.com/developer/cypher/), the graph query language utilized by Neo4j, is renowned for its efficiency in data retrieval from knowledge graphs. Its user-friendly nature, drawing parallels with SQL, is attributed to an intuitive syntax that resonates well with those familiar with traditional programming languages.
 
 This repository takes inspiration from Neo4j's recent [initiative](https://bratanic-tomaz.medium.com/crowdsourcing-text2cypher-dataset-e65ba51916d4) to create their inaugural open-source text-2-Cypher dataset. Our goal with CypherTune is to simplify the process of fine-tuning LLMs, making it more accessible, especially for individuals who are new to the realm of AI. We aim to lower the barrier of entry for Neo4j users to fine-tune LLMs using the text-2-Cypher dataset once it's released to the public.
 
@@ -54,7 +54,7 @@ tuner.train()
 ```
 After training completes, the adapter will be saved in your output directory. The pre-trained model will not be saved.
 
-# HyperParameter Knowledge <img align="center" width="30" height="29" src="https://media.giphy.com/media/FhE5Og89nRTpt4QCet/giphy.gif">
+# HyperParameter Knowledge <img align="center" width="30" height="29" src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExMXV1bWFyMWxkY3JocjE1ZDMxMWZ5OHZtejFkbHpuZXdveTV3Z3BiciZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/bGgsc5mWoryfgKBx1u/giphy.gif">
 
 
 Configuring hyperparameters and LoRA settings can be a complex task, especially for those new to AI engineering. Our repository is designed to lessen the dependence on hyperparameters. For instance, once the Text-2-Cypher dataset is fully crowdsourced, we will undertake multiple training sessions to help us establish a set of baseline hyperparameters that are known to yield good results and saving them to this repository, thereby streamlining the fine-tuning process for Neo4j users. However, having a thorough understanding of these hyperparameters is still advantageous, particularly if you intend to modify them yourself during training.
