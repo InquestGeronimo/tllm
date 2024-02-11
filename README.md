@@ -42,10 +42,12 @@ To start training, the minimum requirement is to pass a `project name`, and your
 from cyphertune import CypherTuner
 
 tuner = CypherTuner(
-    project_name="cypher-training-run",
+    project_name="cyphertune-training-run1",
     model_id="codellama/CodeLlama-7b-Instruct-hf",
     dataset_id="zeroshot/text-2-cypher"
 )
 
 tuner.train()
 ```
+
+# HyperParameter Configuration <img align="center" width="30" height="29" src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExOTk1emo3aXFzM3gxdm1ldjQ5ajRkaHFrc3Y5MmM0aDN0amgzemRjOSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/D1dtNVqmmpkIcYoV1d/giphy-downsized-large.gif">
