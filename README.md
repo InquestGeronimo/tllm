@@ -1,12 +1,17 @@
 <div align="center">
     <img width="400" height="350" src="/img/cyphertune-logo.webp">
 </div>
-<br>
+
+<h4 align="center">
+  ⚠️<em>Under Active Development</em> ⚠️
+</h4>
+
 
 **CypherTune** is a small and simple library for fine-tuning large language models (LLMs) on text-to-Cypher datasets. [Cypher](https://neo4j.com/developer/cypher/) is the graph query language of Neo4j, designed to retrieve data efficiently from a knowledge graph. Drawing inspiration from SQL, Cypher stands out as the most user-friendly graph language, owing to its intuitive syntax and resemblance to familiar languages.
 
-This repository is inspired by Neo4j's recent initiative to crowdsource the development of their first open-source text-to-Cypher dataset. It aims to provide a streamlined and accessible platform for fine-tuning Large Language Models (LLMs). This resource is particularly tailored for users with minimal background in AI, offering an easy entry point to get started with LLMs and graph query language integration.
+This repository is inspired by Neo4j's recent [initiative](https://bratanic-tomaz.medium.com/crowdsourcing-text2cypher-dataset-e65ba51916d4) to crowdsource the development of their first open-source text-to-Cypher dataset. It aims to provide a streamlined and accessible platform for fine-tuning Large Language Models (LLMs). This resource is particularly tailored for users with minimal background in AI, offering an easy entry point to get started with LLMs and graph query language integration.
 
+To help with the crowdsourcing initiative, visit their [app](https://text2cypher.vercel.app/) and be a human-in-the-loop 💁.
 
 # Features
 
@@ -18,8 +23,8 @@ This repository is inspired by Neo4j's recent initiative to crowdsource the deve
 
 Under Development
 
-> - YAML file library storing hyperparameter configurations for select training job environments (i.e. depending on dataset size, model type/size and amount/type of compute).
-> - Model eval post training
+> - Table storing hyperparameter configurations for select training job environments (i.e. depending on dataset size, model type/size and amount/type of compute).
+> - Model eval functionality post-training.
 > - Fully Sharded Data Parallel (FSDP)**: Utilizes FSDP for efficient training across distributed systems.
 
 # Install <img align="center" width="30" height="29" src="https://media.giphy.com/media/sULKEgDMX8LcI/giphy.gif">
@@ -31,36 +36,35 @@ pip install cyphertune
 
 # Launch CypherTuner <img align="center" width="30" height="29" src="https://media.giphy.com/media/QLcCBdBemDIqpbK6jA/giphy.gif">
 
-To start training, initialize the `CypherTuner` class from the script. Pass along your project name, Hugging Face model and dataset stubs. This trainer expects you to have a `train` and `validation` split for your dataset. Here is a placeholder [example](https://huggingface.co/datasets/zeroshot/text-to-cypher) of the dataset format.
+To start training, initialize the `CypherTuner` class from the script. Pass along your project name, Hugging Face model and dataset stubs. This trainer expects you to have a `train` and `validation` split for your dataset. Here is a placeholder [example](https://huggingface.co/datasets/zeroshot/text-2-cypher) of the dataset format.
 
 ```py
 from cyphertune import CypherTuner
 
-trainer = CypherTuner(
-    project_name="CypherTraining",
+tuner = CypherTuner(
+    project_name="cypher-training-run",
     model_id="meta-llama/Llama-2-7b-hf",
-    dataset_id="zeroshot/text-to-cypher"
+    dataset_id="zeroshot/text-2-cypher"
 )
 ```
 
-### Load and Preprocess Datasets and Set training Configuration
+### Load and Preprocess Datasets
 
 ```py
-train_data, eval_data = trainer.load_datasets()
-model, tokenizer = trainer.load_model_and_tokenizer()
-train_data, eval_data = trainer.create_prompts_from_datasets(tokenizer, train_data, eval_data)
+train_data, eval_data = tuner.load_datasets()
+model, tokenizer = tuner.load_model_and_tokenizer()
+train_data, eval_data = tuner.create_prompts_from_datasets(tokenizer, train_data, eval_data)
 ```
 
 ### Configure Training Job
 
 ```py
-model = trainer.configure_lora(model)
-trainer = trainer.configure_training(model, tokenizer, train_data, eval_data)
+model = tuner.configure_lora(model)
+trainer = tuner.configure_training(model, tokenizer, train_data, eval_data)
 ```
 
 ### Start training!
 
 ```py
-trainer.train_model(trainer)
+tuner.train_model(trainer)
 ```
-
