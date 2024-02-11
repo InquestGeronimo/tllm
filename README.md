@@ -88,7 +88,7 @@ The first set of parameters you should be aware of are the settings for [LoRA](h
   task_type="CAUSAL_LM" # Specifies the type of task. Here, it indicates the model is for causal language modeling.
 ```
 
-For further detail, refer to the PEFT [documentation](https://huggingface.co/docs/peft/en/package_reference/lora) on LoRA or blogs found at end of this README.
+For further details, refer to the PEFT [documentation](https://huggingface.co/docs/peft/en/package_reference/lora) or read the blogs found at end of this README.
 
 The 2nd set of parameters is regarding the training job itself:
 
