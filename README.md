@@ -6,7 +6,6 @@
   ⚠️<em>Under Active Development</em> ⚠️
 </h4>
 
-
 **CypherTune** is a small and simple library for fine-tuning large language models (LLMs) on text-to-Cypher datasets. [Cypher](https://neo4j.com/developer/cypher/) is the graph query language of Neo4j, designed to retrieve data efficiently from a knowledge graph. Drawing inspiration from SQL, Cypher stands out as the most user-friendly graph language, owing to its intuitive syntax and resemblance to familiar languages.
 
 This repository is inspired by Neo4j's recent [initiative](https://bratanic-tomaz.medium.com/crowdsourcing-text2cypher-dataset-e65ba51916d4) to crowdsource the development of their first open-source text-to-Cypher dataset. It aims to provide a streamlined and accessible platform for fine-tuning LLMs for users with minimal background in AI, offering an easy entry point to get started with LLMs and graph query language integration.
@@ -15,7 +14,7 @@ To help with the crowdsourcing initiative, visit their [app](https://text2cypher
 
 # Features
 
-CypherTune abstracts away the Hugging Face ecosystem to simplify the training process. While the dependencies offers a complex and rich environment for users to
+CypherTune abstracts away the Hugging Face ecosystem to simplify the training process and currently maintains the following features:
 
 - **Model Fine-Tuning**: Fine-tune LLMs with custom text-to-cypher datasets from 🤗.
 - **Bits and Bytes**: Optimizes model performance with 4-bit quantization.
@@ -30,7 +29,6 @@ Under Development
 > - Fully Sharded Data Parallel (FSDP)**: Utilizes FSDP for efficient training across distributed systems.
 
 # Install <img align="center" width="30" height="29" src="https://media.giphy.com/media/sULKEgDMX8LcI/giphy.gif">
-<br>
 
 ```
 pip install cyphertune
@@ -38,7 +36,7 @@ pip install cyphertune
 
 # Launch CypherTuner <img align="center" width="30" height="29" src="https://media.giphy.com/media/QLcCBdBemDIqpbK6jA/giphy.gif">
 
-To start training, initialize the `CypherTuner` class from the script. Pass along your project name, Hugging Face model and dataset stubs. This trainer expects you to have a `train` and `validation` split for your dataset. Here is a placeholder [example](https://huggingface.co/datasets/zeroshot/text-2-cypher) of the dataset format the trainer is expecting.
+To start training, initialize the `CypherTuner` class from the script. Pass along your project name, Hugging Face model and dataset stubs. This trainer expects you to have a `train` and `validation` split for your dataset. Here is a placeholder [example](https://huggingface.co/datasets/zeroshot/text-2-cypher) of the dataset format the trainer is expecting to receive.
 
 ```py
 from cyphertune import CypherTuner
