@@ -17,8 +17,8 @@ Contributions and participation in this crowdsourcing effort is welcomed! If you
 CypherTune streamlines the training process by abstracting several libraries from the Hugging Face ecosystem. It currently offers the following features:
 
 - **Model Fine-Tuning**: Fine-tunes LLMs using HF's `Trainer` for custom text-to-Cypher datasets stored in the [Hub](https://huggingface.co/datasets).
-- **Bits and Bytes**: Optimizes model performance with 4-bit quantization.
-- **QLoRA**: Fine-tuning using LoRA, a popular and lightweight training technique that significantly reduces the number of trainable parameters. It works by quantizing the precision of the weight parameters in the pre trained LLM to 4-bit precision lowerign the barrier for amount of compute during training.
+- **Bits and Bytes**: Loads model with 4-bit quantization.
+- **QLoRA**: Fine-tuning using LoRA, a popular and lightweight training technique that significantly reduces the number of trainable parameters. It works by quantizing the precision of the weight parameters in the pre trained LLM to 4-bit precision lowering the barrier for the amount of memory required during training. FYI, LLM fine-tuning is mostly a memory bound task.
 - **Prompt Template**: Doc conversion into a prompt template for fine-tuning.
 - **Weights & Biases Integration**: Track and log your experiments using wandb.
 
@@ -113,3 +113,8 @@ The 2nd set of parameters is for the training job itself:
   run_name="run-name",                 # Name of the experiment run, usually containing the project name and timestamp.
 ```
 The provided parameters, while not comprehensive, cover the most critical ones for fine-tuning. Particularly, `per_device_train_batch_size` and `learning_rate` are the most sensitive and influential during this process.
+
+# Resources
+
+- [Practical Tips for Finetuning LLMs Using LoRA (Low-Rank Adaptation)](https://magazine.sebastianraschka.com/p/practical-tips-for-finetuning-llms?utm_source=substack&utm_campaign=post_embed&utm_medium=web)
+- [Easily Train a Specialized LLM: PEFT, LoRA, QLoRA, LLaMA-Adapter, and More](https://cameronrwolfe.substack.com/p/easily-train-a-specialized-llm-peft#:~:text=LoRA%20leaves%20the%20pretrained%20layers,of%20the%20model%3B%20see%20below.&text=Rank%20decomposition%20matrix.,the%20dimensionality%20of%20the%20input.)
