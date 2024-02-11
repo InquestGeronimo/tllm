@@ -50,7 +50,7 @@ tuner = CypherTuner(
 
 tuner.train()
 ```
-After training completes, the model and adapter will be saved in your output directory.
+After training completes, the adapter will be saved in your output directory. The pre-trained model will not be saved.
 
 # HyperParameter Configuration <img align="center" width="30" height="29" src="https://media.giphy.com/media/FhE5Og89nRTpt4QCet/giphy.gif">
 
