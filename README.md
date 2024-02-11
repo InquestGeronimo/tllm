@@ -5,7 +5,9 @@ CypherTune
 CypherTune is a library for fine-tuning large language models (LLMs) on text-to-Cypher datasets. 
 
 
-Inspired by Neo4j's recent initiative to crowdsource the first open sourced text-to-cypher dataset for their graph database language
+Inspired by Neo4j's recent initiative to crowdsource the first open sourced text-to-cypher dataset, this repository offers users a simplified and seamless approach to fine-tuning LLMs with a minimal background in AI to get started.
+
+
 
 ## Features
 
@@ -48,6 +50,7 @@ cd your-repo-name
 
 # Initialize the Trainer <img align="center" width="30" height="29" src="https://media.giphy.com/media/QLcCBdBemDIqpbK6jA/giphy.gif">
 <br>
+
 Import and initialize the `LLMTrainer` class from the script:
 
 ```py
