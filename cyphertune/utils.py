@@ -7,10 +7,10 @@ class PromptHandler:
             The graph will have the following schema:
             {doc["schema"]}
 
-            ### cypher statement:
-            {doc["output"]}
-
             ### sentence:
             {doc["input"]}
+            
+            ### cypher statement:
+            {doc["output"]}
             """
         return prompt

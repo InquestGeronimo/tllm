@@ -50,19 +50,20 @@ tuner = CypherTuner(
 
 tuner.train()
 ```
+After training completes, the model and adapter will be saved in your output directory.
 
 # HyperParameter Configuration <img align="center" width="30" height="29" src="https://media.giphy.com/media/FhE5Og89nRTpt4QCet/giphy.gif">
 
 
 Configuring hyperparameters and LoRA settings can be a complex task, especially for those new to AI engineering. Our repository is designed to lessen the dependence on hyperparameters. For instance, once the Text-2-Cypher dataset is fully crowdsourced, we will undertake multiple training sessions. This will help us establish a set of baseline hyperparameters that are known to yield good results, thereby streamlining the fine-tuning process with CypherTune. However, having a thorough understanding of these hyperparameters is still advantageous, particularly if you intend to modify them yourself during training.
 
-Three key factors that affect hyperparameters in training are:
+Three key factors that affect hyperparameters during training:
 
 1. The size of the dataset.
 2. The type and size of the model.
-3. The kind and quantity of hardware available.
+3. The type and quantity of hardware.
 
-For specifics on CypherTune's hyperparameters, you can refer to the `CypherTuner` class constructor within the [train.py](https://github.com/InquestGeronimo/cyphertune/blob/main/cyphertune/train.py) module. This should provide detailed insights into the default configuration used in the tuning process.
+For accessing CypherTune's hyperparameters, you can refer to the `CypherTuner` class constructor within the [train.py](https://github.com/InquestGeronimo/cyphertune/blob/main/cyphertune/train.py) module. This should provide detailed insights into the default configuration used in the tuning process.
 
 The first set is regarding [LoRA](https://huggingface.co/docs/peft/en/package_reference/lora) or the adapter:
 
