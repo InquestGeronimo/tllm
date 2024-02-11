@@ -1,6 +1,11 @@
 import os
 from datetime import datetime
+
 import torch
+from datasets import load_dataset
+from peft import prepare_model_for_kbit_training, LoraConfig, get_peft_model
+import wandb
+import transformers
 from transformers import (
     AutoTokenizer, 
     AutoModelForCausalLM, 
@@ -8,10 +13,6 @@ from transformers import (
     TrainingArguments, 
     DataCollatorForLanguageModeling
 )
-from datasets import load_dataset
-from peft import prepare_model_for_kbit_training, LoraConfig, get_peft_model
-import wandb
-import transformers
 from .utils import PromptHandler
 
 from accelerate import FullyShardedDataParallelPlugin, Accelerator
@@ -22,9 +23,9 @@ fsdp_plugin = FullyShardedDataParallelPlugin(
     optim_state_dict_config=FullOptimStateDictConfig(offload_to_cpu=True, rank0_only=False),
 )
 
-class LLMTrainer:
+class CypherTuner:
     """
-    A class for fine-tuning and generating text with the Llama 2 7B model.
+    A class for fine-tuning an LLM using QLoRA.
 
     Args:
         project_name (str): Name of the project for organization and tracking.

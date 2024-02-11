@@ -2,9 +2,9 @@
     <img width="400" height="350" src="/img/cyphertune-logo.webp">
 </div>
 
-CypherTune is a library for fine-tuning large language models (LLMs) on text-to-Cypher datasets. Cypher is Neo4j’s graph query language that lets you retrieve data from a knowledge graph. It  was inspired by SQL and is the easiest graph language to learn by far because of its similarity to other languages and intuitiveness.
+CypherTune is a library for fine-tuning large language models (LLMs) on text-to-Cypher datasets. [Cypher](https://neo4j.com/developer/cypher/) is Neo4j’s graph query language that lets you retrieve data from a knowledge graph. It  was inspired by SQL and is the easiest graph language to learn by far because of its similarity to other languages and intuitiveness.
 
-Inspired by Neo4j's recent initiative to crowdsource the first open sourced text-to-cypher dataset, this repository offers users a simplified and seamless approach to fine-tuning LLMs with a minimal background in AI to get started.
+Inspired by Neo4j's recent initiative to crowdsource the first open sourced text-to-cypher dataset, this repository offers users a simplified and seamless environment for fine-tuning LLMs with a minimal background in AI to get started.
 
 # Features
 
@@ -38,15 +38,23 @@ cd your-repo-name
 
 # Initialize the Trainer <img align="center" width="30" height="29" src="https://media.giphy.com/media/QLcCBdBemDIqpbK6jA/giphy.gif">
 
-Import and initialize the `LLMTrainer` class from the script:
+To start training, initialize the `LLMTrainer` class from the script:
 
 ```py
-from llm_trainer import LLMTrainer
+from cyphertune import LLMTrainer
 
 trainer = LLMTrainer(
     project_name="YourProjectName",
     model_id="ModelIdentifier",
     dataset_id="DatasetIdentifier"
 )
+
+train_data, eval_data = tllm.load_datasets()
+model, tokenizer = tllm.load_model_and_tokenizer()
+train_data, eval_data = tllm.create_prompts_from_datasets(tokenizer, train_data, eval_data)
+model = tllm.configure_lora(model)
+trainer = tllm.configure_training(model, tokenizer, train_data, eval_data)
+
+tllm.train_model(trainer)
 ```
 
