@@ -2,9 +2,9 @@
     <img width="400" height="350" src="/img/cyphertune-logo.webp">
 </div>
 
-<h4 align="center">
+<h5 align="center">
   ⚠️<em>Under Active Development</em> ⚠️
-</h4>
+</h5>
 
 **CypherTune** is a small and simple Python library for fine-tuning large language models (LLMs) on text-to-Cypher datasets. [Cypher](https://neo4j.com/developer/cypher/) is the graph query language of Neo4j, designed to retrieve data efficiently from a knowledge graph. Drawing inspiration from SQL, Cypher stands out as the most user-friendly graph language, owing to its intuitive syntax and resemblance to familiar languages.
 
