@@ -1,6 +1,6 @@
-<h1 align="center">
-CypherTune
-</h1>
+<div align="center">
+    <img width="400" height="350" src="/img/cyphertune-logo.webp">
+</div>
 
 CypherTune is a library for fine-tuning large language models (LLMs) on text-to-Cypher datasets. 
 
