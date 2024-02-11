@@ -8,9 +8,9 @@
 
 **CypherTune** is a small and simple Python library for fine-tuning large language models (LLMs) on text-to-Cypher datasets. [Cypher](https://neo4j.com/developer/cypher/) is the graph query language of Neo4j, designed to retrieve data efficiently from a knowledge graph. Drawing inspiration from SQL, Cypher stands out as the most user-friendly graph language, owing to its intuitive syntax and resemblance to familiar languages.
 
-This repository is inspired by Neo4j's recent [initiative](https://bratanic-tomaz.medium.com/crowdsourcing-text2cypher-dataset-e65ba51916d4) to crowdsource the development of their first open-source text-to-Cypher dataset. It aims to provide a streamlined and accessible platform for fine-tuning LLMs for users with minimal background in AI, offering an easy entry point to get started with LLMs and graph query language integration.
+This repository is inspired by Neo4j's recent [initiative](https://bratanic-tomaz.medium.com/crowdsourcing-text2cypher-dataset-e65ba51916d4) to crowdsource the development of their first open-source text-to-Cypher dataset. It aims to provide a streamlined and accessible platform for fine-tuning LLMs for users with minimal background in AI, offering an easy entry point to get started with LLMs and graph query language generation.
 
-To help with the crowdsourcing initiative, visit their [app](https://text2cypher.vercel.app/) and be a human-in-the-loop 💁.
+If you want to help with the crowdsourcing initiative, don't be shy and visit their [app](https://text2cypher.vercel.app/)  💁.
 
 # Features
 
@@ -41,30 +41,11 @@ To start training, initialize the `CypherTuner` class from the script. Pass alon
 ```py
 from cyphertune import CypherTuner
 
-tuner = CypherTuner(
+model = CypherTuner(
     project_name="cypher-training-run",
-    model_id="meta-llama/Llama-2-7b-hf",
+    model_id="codellama/CodeLlama-7b-Instruct-hf",
     dataset_id="zeroshot/text-2-cypher"
 )
-```
 
-**Load and Preprocess Datasets**
-
-```py
-train_data, eval_data = tuner.load_datasets()
-model, tokenizer = tuner.load_model_and_tokenizer()
-train_data, eval_data = tuner.create_prompts_from_datasets(tokenizer, train_data, eval_data)
-```
-
-**Configure Training Job**
-
-```py
-model = tuner.configure_lora(model)
-trainer = tuner.configure_training(model, tokenizer, train_data, eval_data)
-```
-
-**Start training!**
-
-```py
-tuner.train_model(trainer)
+tuner.train(model)
 ```

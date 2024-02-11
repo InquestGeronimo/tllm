@@ -199,12 +199,18 @@ class CypherTuner:
 
         return trainer
     
-    def train_model(self, trainer):
+    def train(self, trainer):
         """
-        Run the fine-tuning training on LLM.
+        Prepares datasets, model, tokenizer, and configurations, and then starts the training process.
 
         Args:
             trainer: The trainer object configured for model training.
         """
         print("Preparing your training job...")
+
+        train_data, eval_data = self.load_datasets()
+        model, tokenizer = self.load_model_and_tokenizer()
+        train_data, eval_data = self.create_prompts_from_datasets(tokenizer, train_data, eval_data)
+        model = self.configure_lora(model)
+        trainer = self.configure_training(model, tokenizer, train_data, eval_data)
         trainer.train()
