@@ -2,34 +2,22 @@
     <img width="400" height="350" src="/img/cyphertune-logo.webp">
 </div>
 
-CypherTune is a library for fine-tuning large language models (LLMs) on text-to-Cypher datasets. 
-
+CypherTune is a library for fine-tuning large language models (LLMs) on text-to-Cypher datasets. Cypher is Neo4j’s graph query language that lets you retrieve data from a knowledge graph. It  was inspired by SQL and is the easiest graph language to learn by far because of its similarity to other languages and intuitiveness.
 
 Inspired by Neo4j's recent initiative to crowdsource the first open sourced text-to-cypher dataset, this repository offers users a simplified and seamless approach to fine-tuning LLMs with a minimal background in AI to get started.
 
-
-
-## Features
+# Features
 
 - **Model Fine-Tuning**: Fine-tune LLMs with custom text-to-cypher datasets from 🤗.
 - **Bits and Bytes**: Optimizes model performance with 4-bit quantization.
-- **LoRA**: Adapter fine-tuning ability through LoRA (Low-Rank Adaptation).
+- **QLoRA**: Fine-tuning using LoRA, a popular and lightweight training technique that significantly reduces the number of trainable parameters
 - **Promp Template**: Doc conversion into a prompt template for fine-tuning.
-- **Weights & Biases Integration**: Track and log your experiments using wandb.
+- **Weights & Biases Integration**: Track and log your experiments using wandb. (optional)
 
-(Under Development)
-> Fully Sharded Data Parallel (FSDP)**: Utilizes FSDP for efficient training across distributed systems.
+Under Development
 
-## Requirements
-
-- Python 3.10+
-- PyTorch
-- Transformers
-- Datasets
-- Accelerate
-- Peft
-- bitsandbytes
-- wandb (optional for logging)
+> - YAML file library storing hyperparameter configurations for select training job environments (i.e. depending on dataset, model type/size and amount of compute).
+> - Fully Sharded Data Parallel (FSDP)**: Utilizes FSDP for efficient training across distributed systems.
 
 # Install <img align="center" width="30" height="29" src="https://media.giphy.com/media/sULKEgDMX8LcI/giphy.gif">
 <br>
@@ -38,7 +26,7 @@ Inspired by Neo4j's recent initiative to crowdsource the first open sourced text
 pip install cyphertune
 ```
 
-## Usage
+# Usage
 
 Setting Up
 First, clone the repository to your local machine:
