@@ -54,4 +54,54 @@ tuner.train()
 
 Hyperparameter configuration and LoRA settings can be particularly challenging for those new to AI engineering. This repository aims to reduce reliance on hyperparameters, yet it's beneficial to have a solid understanding of them before training, especially if you plan to adjust them yourself.
 
-The three primary factors influencing hyperparameters during training are dataset size, model type and size, and the type and amount of available hardware. After the Text-2-Cypher dataset is thoroughly prepared, we will conduct multiple training sessions. The outcome will be a hyperparameter table, offering baseline parameters that perform well, aiding in fine-tuning your model with CypherTune.
+The three primary factors influencing hyperparameters during training are dataset size, model type and size, and the type and amount of available hardware. After the Text-2-Cypher dataset has completed being crowdsourced, we will conduct multiple training runs for us to get a good understanding of baseline hyperparameters that perform well, expediting the fine-tuning process using CypherTune.
+
+The CypherTune's hyperparameters can be found in the constructor of the `CypherTuner` class in the `train.py` module.
+
+The first set is regarding [LoRA](https://huggingface.co/docs/peft/en/package_reference/lora) or the adapter.
+
+### LoRA configuration settings
+
+```py
+r=8,                  # The size of the LoRA adjustments. It determines the level of detail in the modifications LoRA applies.
+lora_alpha=16,        # This is the scaling factor for LoRA. It controls the magnitude of the adjustments made by LoRA.
+target_modules=[      # Specifies the parts of the model where LoRA is applied. These can be components of the transformer architecture.
+    "q_proj", 
+    "k_proj",
+    "v_proj",
+    "o_proj",
+    "gate_proj",
+    "up_proj", 
+    "down_proj",
+    "lm_head",
+],
+bias="none",          # Indicates that biases are not adapted as part of the LoRA process.
+lora_dropout=0.05,    # The dropout rate for LoRA layers. It's a regularization technique to prevent overfitting.
+task_type="CAUSAL_LM" # Specifies the type of task. Here, it indicates the model is for causal language modeling.
+```
+
+The 2nd set of parameters is for the training job itself:
+
+
+
+```py
+  # Trainer configuration settings
+  output_dir="./output",               # Directory where the training outputs and model checkpoints will be written.
+  warmup_steps=1,                      # Number of steps to perform learning rate warmup.
+  per_device_train_batch_size=32,      # Batch size per device during training.
+  gradient_accumulation_steps=1,       # Number of updates steps to accumulate before performing a backward/update pass.
+  gradient_checkpointing=True,         # Enables gradient checkpointing to save memory at the expense of slower backward pass.
+  max_steps=1000,                      # Total number of training steps to perform.
+  learning_rate=2.5e-5,                # Initial learning rate for the optimizer.
+  bf16=True,                           # Use bfloat16 mixed precision training instead of the default fp32.
+  optim="paged_adamw_8bit",            # The optimizer to use, here it's a variant of AdamW optimized for 8-bit computing.
+  logging_dir="./logs",                # Directory to store logs.
+  save_strategy="steps",               # Strategy to use for saving a model checkpoint ('steps' means saving at every specified number of steps).
+  save_steps=100,                      # Number of steps to save a checkpoint after.
+  evaluation_strategy="steps",         # Strategy to use for evaluation ('steps' means evaluating at every specified number of steps).
+  eval_steps=2,                        # Number of training steps to perform evaluation after.
+  do_eval=True,                        # Whether to run evaluation on the validation set.
+  report_to="wandb",                   # Tool to use for logging and tracking (Weights & Biases in this case).
+  remove_unused_columns=True,          # Whether to remove columns not used by the model when using a dataset.
+  run_name=f"run-name",                # Name of the experiment run, usually containing the project name and timestamp.
+```
