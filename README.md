@@ -9,16 +9,18 @@
 
 **CypherTune** is a small and simple library for fine-tuning large language models (LLMs) on text-to-Cypher datasets. [Cypher](https://neo4j.com/developer/cypher/) is the graph query language of Neo4j, designed to retrieve data efficiently from a knowledge graph. Drawing inspiration from SQL, Cypher stands out as the most user-friendly graph language, owing to its intuitive syntax and resemblance to familiar languages.
 
-This repository is inspired by Neo4j's recent [initiative](https://bratanic-tomaz.medium.com/crowdsourcing-text2cypher-dataset-e65ba51916d4) to crowdsource the development of their first open-source text-to-Cypher dataset. It aims to provide a streamlined and accessible platform for fine-tuning Large Language Models (LLMs). This resource is particularly tailored for users with minimal background in AI, offering an easy entry point to get started with LLMs and graph query language integration.
+This repository is inspired by Neo4j's recent [initiative](https://bratanic-tomaz.medium.com/crowdsourcing-text2cypher-dataset-e65ba51916d4) to crowdsource the development of their first open-source text-to-Cypher dataset. It aims to provide a streamlined and accessible platform for fine-tuning LLMs for users with minimal background in AI, offering an easy entry point to get started with LLMs and graph query language integration.
 
 To help with the crowdsourcing initiative, visit their [app](https://text2cypher.vercel.app/) and be a human-in-the-loop 💁.
 
 # Features
 
+CypherTune abstracts away the Hugging Face ecosystem to simplify the training process. While the dependencies offers a complex and rich environment for users to
+
 - **Model Fine-Tuning**: Fine-tune LLMs with custom text-to-cypher datasets from 🤗.
 - **Bits and Bytes**: Optimizes model performance with 4-bit quantization.
 - **QLoRA**: Fine-tuning using LoRA, a popular and lightweight training technique that significantly reduces the number of trainable parameters.
-- **Promp Template**: Doc conversion into a prompt template for fine-tuning.
+- **Prompt Template**: Doc conversion into a prompt template for fine-tuning.
 - **Weights & Biases Integration**: Track and log your experiments using wandb. (optional)
 
 Under Development
@@ -36,7 +38,7 @@ pip install cyphertune
 
 # Launch CypherTuner <img align="center" width="30" height="29" src="https://media.giphy.com/media/QLcCBdBemDIqpbK6jA/giphy.gif">
 
-To start training, initialize the `CypherTuner` class from the script. Pass along your project name, Hugging Face model and dataset stubs. This trainer expects you to have a `train` and `validation` split for your dataset. Here is a placeholder [example](https://huggingface.co/datasets/zeroshot/text-2-cypher) of the dataset format.
+To start training, initialize the `CypherTuner` class from the script. Pass along your project name, Hugging Face model and dataset stubs. This trainer expects you to have a `train` and `validation` split for your dataset. Here is a placeholder [example](https://huggingface.co/datasets/zeroshot/text-2-cypher) of the dataset format the trainer is expecting.
 
 ```py
 from cyphertune import CypherTuner
@@ -48,7 +50,7 @@ tuner = CypherTuner(
 )
 ```
 
-### Load and Preprocess Datasets
+**Load and Preprocess Datasets**
 
 ```py
 train_data, eval_data = tuner.load_datasets()
@@ -56,14 +58,14 @@ model, tokenizer = tuner.load_model_and_tokenizer()
 train_data, eval_data = tuner.create_prompts_from_datasets(tokenizer, train_data, eval_data)
 ```
 
-### Configure Training Job
+**Configure Training Job**
 
 ```py
 model = tuner.configure_lora(model)
 trainer = tuner.configure_training(model, tokenizer, train_data, eval_data)
 ```
 
-### Start training!
+**Start training!**
 
 ```py
 tuner.train_model(trainer)
