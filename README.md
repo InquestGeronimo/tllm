@@ -49,7 +49,6 @@ cd your-repo-name
 ```
 
 # Initialize the Trainer <img align="center" width="30" height="29" src="https://media.giphy.com/media/QLcCBdBemDIqpbK6jA/giphy.gif">
-<br>
 
 Import and initialize the `LLMTrainer` class from the script:
 
