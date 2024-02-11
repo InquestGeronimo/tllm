@@ -50,4 +50,4 @@ tuner = CypherTuner(
 tuner.train()
 ```
 
-# HyperParameter Configuration <img align="center" width="30" height="29" src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExOTk1emo3aXFzM3gxdm1ldjQ5ajRkaHFrc3Y5MmM0aDN0amgzemRjOSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/D1dtNVqmmpkIcYoV1d/giphy-downsized-large.gif">
+# HyperParameter Configuration <img align="center" width="30" height="29" src="https://media.giphy.com/media/3o85xmYEd5Ml5zT6QU/giphy.gif">
