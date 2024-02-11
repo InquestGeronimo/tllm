@@ -27,7 +27,7 @@ Under Development
 pip install cyphertune
 ```
 
-# Initialize the Trainer <img align="center" width="30" height="29" src="https://media.giphy.com/media/QLcCBdBemDIqpbK6jA/giphy.gif">
+# Launch CypherTuner <img align="center" width="30" height="29" src="https://media.giphy.com/media/QLcCBdBemDIqpbK6jA/giphy.gif">
 
 To start training, initialize the `CypherTuner` class from the script. Pass along your project name, Hugging Face model stub dataset stubs:
 
