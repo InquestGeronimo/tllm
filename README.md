@@ -60,29 +60,26 @@ The CypherTune's hyperparameters can be found in the constructor of the `CypherT
 
 The first set is regarding [LoRA](https://huggingface.co/docs/peft/en/package_reference/lora) or the adapter.
 
-### LoRA configuration settings
-
 ```py
-r=8,                  # The size of the LoRA adjustments. It determines the level of detail in the modifications LoRA applies.
-lora_alpha=16,        # This is the scaling factor for LoRA. It controls the magnitude of the adjustments made by LoRA.
-target_modules=[      # Specifies the parts of the model where LoRA is applied. These can be components of the transformer architecture.
-    "q_proj", 
-    "k_proj",
-    "v_proj",
-    "o_proj",
-    "gate_proj",
-    "up_proj", 
-    "down_proj",
-    "lm_head",
-],
-bias="none",          # Indicates that biases are not adapted as part of the LoRA process.
-lora_dropout=0.05,    # The dropout rate for LoRA layers. It's a regularization technique to prevent overfitting.
-task_type="CAUSAL_LM" # Specifies the type of task. Here, it indicates the model is for causal language modeling.
+  # LoRA configuration settings
+  r=8,                  # The size of the LoRA adjustments. It determines the level of detail in the modifications LoRA applies.
+  lora_alpha=16,        # This is the scaling factor for LoRA. It controls the magnitude of the adjustments made by LoRA.
+  target_modules=[      # Specifies the parts of the model where LoRA is applied. These can be components of the transformer architecture.
+      "q_proj", 
+      "k_proj",
+      "v_proj",
+      "o_proj",
+      "gate_proj",
+      "up_proj", 
+      "down_proj",
+      "lm_head",
+  ],
+  bias="none",          # Indicates that biases are not adapted as part of the LoRA process.
+  lora_dropout=0.05,    # The dropout rate for LoRA layers. It's a regularization technique to prevent overfitting.
+  task_type="CAUSAL_LM" # Specifies the type of task. Here, it indicates the model is for causal language modeling.
 ```
 
 The 2nd set of parameters is for the training job itself:
-
-
 
 ```py
   # Trainer configuration settings
