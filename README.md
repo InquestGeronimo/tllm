@@ -27,16 +27,6 @@ Under Development
 pip install cyphertune
 ```
 
-# Usage
-
-Setting Up
-First, clone the repository to your local machine:
-
-```
-git clone https://github.com/your-username/your-repo-name.git
-cd your-repo-name
-```
-
 # Initialize the Trainer <img align="center" width="30" height="29" src="https://media.giphy.com/media/QLcCBdBemDIqpbK6jA/giphy.gif">
 
 To start training, initialize the `CypherTuner` class from the script. Pass along your project name, Hugging Face model stub dataset stubs:
