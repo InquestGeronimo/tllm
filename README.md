@@ -51,3 +51,7 @@ tuner.train()
 ```
 
 # HyperParameter Configuration <img align="center" width="30" height="29" src="https://media.giphy.com/media/3o85xmYEd5Ml5zT6QU/giphy.gif">
+
+Hyperparameter configuration and LoRA settings can be particularly challenging for those new to AI engineering. This repository aims to reduce reliance on hyperparameters, yet it's beneficial to have a solid understanding of them before training, especially if you plan to adjust them yourself.
+
+The three primary factors influencing hyperparameters during training are dataset size, model type and size, and the type and amount of available hardware. After the Text-2-Cypher dataset is thoroughly prepared, we will conduct multiple training sessions. The outcome will be a hyperparameter table, offering baseline parameters that perform well, aiding in fine-tuning your model with CypherTune.
