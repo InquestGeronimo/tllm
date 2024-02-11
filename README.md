@@ -55,7 +55,7 @@ tuner.train()
 ```
 After training completes, the adapter will be saved in your output directory. The pre-trained model will not be saved.
 
-# HyperParameter Configuration <img align="center" width="30" height="29" src="https://media.giphy.com/media/FhE5Og89nRTpt4QCet/giphy.gif">
+# HyperParameter Knowledge <img align="center" width="30" height="29" src="https://media.giphy.com/media/FhE5Og89nRTpt4QCet/giphy.gif">
 
 
 Configuring hyperparameters and LoRA settings can be a complex task, especially for those new to AI engineering. Our repository is designed to lessen the dependence on hyperparameters. For instance, once the Text-2-Cypher dataset is fully crowdsourced, we will undertake multiple training sessions to help us establish a set of baseline hyperparameters that are known to yield good results, thereby streamlining the fine-tuning process for Neo4j users. However, having a thorough understanding of these hyperparameters is still advantageous, particularly if you intend to modify them yourself during training.
@@ -106,9 +106,9 @@ The 2nd set of parameters is for the training job itself:
   optim="paged_adamw_8bit",            # The optimizer to use, here it's a variant of AdamW optimized for 8-bit computing.
   logging_dir="./logs",                # Directory to store logs.
   save_strategy="steps",               # Strategy to use for saving a model checkpoint ('steps' means saving at every specified number of steps).
-  save_steps=100,                      # Number of steps to save a checkpoint after.
+  save_steps=25,                       # Number of steps to save a checkpoint after.
   evaluation_strategy="steps",         # Strategy to use for evaluation ('steps' means evaluating at every specified number of steps).
-  eval_steps=2,                        # Number of training steps to perform evaluation after.
+  eval_steps=50,                       # Number of training steps to perform evaluation after.
   do_eval=True,                        # Whether to run evaluation on the validation set.
   report_to="wandb",                   # Tool to use for logging and tracking (Weights & Biases in this case).
   remove_unused_columns=True,          # Whether to remove columns not used by the model when using a dataset.
