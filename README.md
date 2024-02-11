@@ -41,11 +41,11 @@ To start training, the minimum requirement is to pass a `project name`, and your
 ```py
 from cyphertune import CypherTuner
 
-model = CypherTuner(
+tuner = CypherTuner(
     project_name="cypher-training-run",
     model_id="codellama/CodeLlama-7b-Instruct-hf",
     dataset_id="zeroshot/text-2-cypher"
 )
 
-tuner.train(model)
+tuner.train()
 ```

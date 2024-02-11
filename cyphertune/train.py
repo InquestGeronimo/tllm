@@ -199,7 +199,7 @@ class CypherTuner:
 
         return trainer
     
-    def train(self, trainer):
+    def train(self):
         """
         Prepares datasets, model, tokenizer, and configurations, and then starts the training process.
 
