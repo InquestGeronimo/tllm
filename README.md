@@ -6,9 +6,7 @@
   ⚠️<em>Under Active Development</em> ⚠️
 </h5>
 
-**CypherTune** is a compact and intuitive Python library designed to fine-tune large language models (LLMs) specifically for text-2-Cypher tasks. It uses [LoRA](https://arxiv.org/pdf/2106.09685.pdf) under the hood which allows for most of the pre-trained LLM's parameters to remain frozen during fine-tuning. Consequently, only a minimal number of parameters in the adapter are adjusted.
-
-[Cypher](https://neo4j.com/developer/cypher/), the graph query language utilized by Neo4j, is renowned for its efficiency in data retrieval from knowledge graphs. Its user-friendly nature, drawing parallels with SQL, is attributed to an intuitive syntax that resonates well with those familiar with traditional programming languages.
+**CypherTune** is a compact and encapsulated Python library designed to fine-tune large language models (LLMs) specifically for text-2-Cypher tasks. [Cypher](https://neo4j.com/developer/cypher/), the graph query language utilized by Neo4j, is renowned for its efficiency in data retrieval from knowledge graphs. Its user-friendly nature, drawing parallels with SQL, is attributed to an intuitive syntax that resonates well with those familiar with traditional programming languages.
 
 This repository takes inspiration from Neo4j's recent [initiative](https://bratanic-tomaz.medium.com/crowdsourcing-text2cypher-dataset-e65ba51916d4) to create their inaugural open-source text-2-Cypher dataset. Our goal with CypherTune is to simplify the process of fine-tuning LLMs, making it more accessible, especially for individuals who are new to the realm of AI. We aim to lower the barrier of entry for Neo4j users to fine-tune LLMs using the text-2-Cypher dataset once it's released to the public.
 
@@ -18,9 +16,9 @@ Contributions and participation in this crowdsourcing effort is welcomed! If you
 
 CypherTune streamlines the training process by abstracting several libraries from the Hugging Face ecosystem. It currently offers the following features:
 
-- **Model Fine-Tuning**: Fine-tunes LLMs using HF's `Trainer` for custom text-to-Cypher datasets stored in the [Hub](https://huggingface.co/datasets).
+- **LLM Fine-Tuning**: Fine-tunes LLMs using HF's `Trainer` for custom text-to-Cypher datasets stored in the [Hub](https://huggingface.co/datasets).
 - **Bits and Bytes**: Loads model with 4-bit quantization.
-- **QLoRA**: Fine-tuning using LoRA, a popular and lightweight training technique that significantly reduces the number of trainable parameters. It works by quantizing the precision of the weight parameters in the pre trained LLM to 4-bit precision lowering the barrier for the amount of memory required during training. FYI, LLM fine-tuning is mostly a memory bound task.
+- **PEFT**: Uses [LoRA](https://arxiv.org/pdf/2106.09685.pdf) under the hood, a popular and lightweight training technique that significantly reduces the number of trainable parameters. We combine 4-bit precision lowering the barrier for the amount of memory required during training (e.g. QLoRA). FYI, LLM fine-tuning is mostly a memory bound task.
 - **Prompt Template**: Doc conversion into a prompt template for fine-tuning.
 - **Weights & Biases Integration**: Track and log your experiments using wandb.
 
@@ -40,7 +38,7 @@ pip install cyphertune
 
 # Start Training <img align="center" width="30" height="29" src="https://media.giphy.com/media/QLcCBdBemDIqpbK6jA/giphy.gif">
 
-To start training, the minimum requirement is to pass a `project name`, and your Hugging Face `model`/`dataset` stubs. The trainer is expecting to ingest a `train` and `validation` split from your dataset prior to training. Here is a placeholder [example](https://huggingface.co/datasets/zeroshot/text-2-cypher) of the dataset format the trainer is expecting to receive.
+To start training, the minimum requirement is to pass a `project name`, and your Hugging Face `model`/`dataset` stubs. The trainer is expecting to ingest a `train` and `validation` split from your dataset prior to training. This is a placeholder [dataset example](https://huggingface.co/datasets/zeroshot/text-2-cypher) of the format the trainer is expecting to receive.
 
 ```py
 from cyphertune import CypherTuner
@@ -66,9 +64,9 @@ Three key factors that affect hyperparameters during training:
 2. The type and size of the model.
 3. The type and quantity of hardware.
 
-For accessing CypherTune's hyperparameters, you can refer to the `CypherTuner` class constructor within the [train.py](https://github.com/InquestGeronimo/cyphertune/blob/main/cyphertune/train.py) module. This should provide detailed insights into the default configuration used in the tuning process.
+For accessing CypherTune's hyperparameters, you can refer to the `CypherTuner` class constructor within the [train.py](https://github.com/InquestGeronimo/cyphertune/blob/main/cyphertune/train.py) module.
 
-The first set of parameters involve the settings for [LoRA](https://huggingface.co/docs/peft/en/package_reference/lora):
+The first set of parameters you should be aware of are the settings for [LoRA](https://huggingface.co/docs/peft/en/package_reference/lora):
 
 ```py
   # LoRA configuration settings
@@ -89,9 +87,9 @@ The first set of parameters involve the settings for [LoRA](https://huggingface.
   task_type="CAUSAL_LM" # Specifies the type of task. Here, it indicates the model is for causal language modeling.
 ```
 
-For further detail, refer to the PEFT [documentation](https://huggingface.co/docs/peft/en/package_reference/lora) on LoRA
+For further detail, refer to the PEFT [documentation](https://huggingface.co/docs/peft/en/package_reference/lora) on LoRA or blogs found at end of the README.
 
-The 2nd set of parameters is for the training job itself:
+The 2nd set of parameters is regarding the training job itself:
 
 ```py
   # Trainer configuration settings
