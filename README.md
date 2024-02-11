@@ -14,7 +14,7 @@ To help with the crowdsourcing initiative, visit their [app](https://text2cypher
 
 # Features
 
-CypherTune abstracts away the Hugging Face ecosystem to simplify the training process and currently maintains the following features:
+CypherTune streamlines the training process by abstracting the complexities of the Hugging Face ecosystem. It currently offers the following features:
 
 - **Model Fine-Tuning**: Fine-tune LLMs with custom text-to-cypher datasets from 🤗.
 - **Bits and Bytes**: Optimizes model performance with 4-bit quantization.

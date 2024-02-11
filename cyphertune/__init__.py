@@ -1,1 +1,1 @@
-from cyphertune.train import LLMTrainer
+from cyphertune.train import CypherTuner
