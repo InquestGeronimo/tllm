@@ -47,6 +47,7 @@ class CypherTuner:
             bnb_4bit_compute_dtype=torch.bfloat16,
         )
         
+        # LoRA configuration settings
         self.lora_config = LoraConfig(
             r=8,
             lora_alpha=16,
@@ -64,7 +65,8 @@ class CypherTuner:
             lora_dropout=0.05,
             task_type="CAUSAL_LM",
         )
-
+        
+        # Trainer configuration settings
         self.args = TrainingArguments(
             output_dir="./output",
             warmup_steps=1,
@@ -204,4 +206,5 @@ class CypherTuner:
         Args:
             trainer: The trainer object configured for model training.
         """
+        print("Preparing your training job...")
         trainer.train()

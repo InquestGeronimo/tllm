@@ -26,7 +26,7 @@ Under Development
 
 > - Table storing hyperparameter configurations for select training job environments (i.e. depending on dataset size, model type/size and amount/type of compute).
 > - Model eval functionality post-training.
-> - Fully Sharded Data Parallel (FSDP)**: Utilizes FSDP for efficient training across distributed systems.
+> - Fully Sharded Data Parallel (FSDP): Utilizes efficient training across distributed systems.
 
 # Install <img align="center" width="30" height="29" src="https://media.giphy.com/media/sULKEgDMX8LcI/giphy.gif">
 
