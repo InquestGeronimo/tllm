@@ -6,7 +6,9 @@
   ⚠️<em>Under Active Development</em> ⚠️
 </h5>
 
-**CypherTune** is a compact and intuitive Python library designed to fine-tune large language models (LLMs) specifically for text-2-Cypher tasks. [Cypher](https://neo4j.com/developer/cypher/), the graph query language utilized by Neo4j, is renowned for its efficiency in data retrieval from knowledge graphs. Its user-friendly nature, drawing parallels with SQL, is attributed to an intuitive syntax that resonates well with those familiar with traditional programming languages.
+**CypherTune** is a compact and intuitive Python library designed to fine-tune large language models (LLMs) specifically for text-2-Cypher tasks. It uses [LoRA](https://arxiv.org/pdf/2106.09685.pdf) under the hood which allows for most of the pre-trained LLM's parameters to remain frozen during fine-tuning. Consequently, only a minimal number of parameters in the adapter are adjusted.
+
+[Cypher](https://neo4j.com/developer/cypher/), the graph query language utilized by Neo4j, is renowned for its efficiency in data retrieval from knowledge graphs. Its user-friendly nature, drawing parallels with SQL, is attributed to an intuitive syntax that resonates well with those familiar with traditional programming languages.
 
 This repository takes inspiration from Neo4j's recent [initiative](https://bratanic-tomaz.medium.com/crowdsourcing-text2cypher-dataset-e65ba51916d4) to create their inaugural open-source text-2-Cypher dataset. Our goal with CypherTune is to simplify the process of fine-tuning LLMs, making it more accessible, especially for individuals who are new to the realm of AI. We aim to lower the barrier of entry for Neo4j users to fine-tune LLMs using the text-2-Cypher dataset once it's released to the public.
 
