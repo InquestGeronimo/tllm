@@ -22,7 +22,7 @@ CypherTune streamlines the training process by abstracting the complexities of t
 - **Prompt Template**: Doc conversion into a prompt template for fine-tuning.
 - **Weights & Biases Integration**: Track and log your experiments using wandb. (optional)
 
-Under Development
+TODO
 
 > - Table storing hyperparameter configurations for select training job environments (i.e. depending on dataset size, model type/size and amount/type of compute).
 > - Model eval functionality post-training.
