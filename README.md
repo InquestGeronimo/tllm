@@ -18,8 +18,8 @@ CypherTune streamlines the training process by abstracting several libraries fro
 
 - **LLM Fine-Tuning**: Fine-tunes LLMs using HF's `Trainer` for custom text-to-Cypher datasets stored in the [Hub](https://huggingface.co/datasets).
 - **Bits and Bytes**: Loads model with 4-bit quantization.
-- **PEFT**: Uses [LoRA](https://arxiv.org/pdf/2106.09685.pdf) under the hood, a popular and lightweight training technique that significantly reduces the number of trainable parameters. We combine 4-bit precision lowering the barrier for the amount of memory required during training (e.g. QLoRA). FYI, LLM fine-tuning is mostly a memory bound task.
-- **Prompt Template**: Doc conversion into a prompt template for fine-tuning.
+- **PEFT**: Uses [LoRA](https://arxiv.org/pdf/2106.09685.pdf) under the hood, a popular and lightweight training technique that significantly reduces the number of trainable parameters. We combine 4-bit quantization lowering the barrier for the amount of memory required during training (QLoRA). FYI, LLM fine-tuning is mostly a memory bound task.
+- **Dataset Preprocessing**: Converts dataset into a prompt template for fine-tuning.
 - **Weights & Biases Integration**: Track and log your experiments using wandb.
 
 TODO
@@ -88,7 +88,7 @@ The first set of parameters you should be aware of are the settings for [LoRA](h
   task_type="CAUSAL_LM" # Specifies the type of task. Here, it indicates the model is for causal language modeling.
 ```
 
-For further detail, refer to the PEFT [documentation](https://huggingface.co/docs/peft/en/package_reference/lora) on LoRA or blogs found at end of the README.
+For further detail, refer to the PEFT [documentation](https://huggingface.co/docs/peft/en/package_reference/lora) on LoRA or blogs found at end of this README.
 
 The 2nd set of parameters is regarding the training job itself:
 
