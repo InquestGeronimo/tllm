@@ -68,11 +68,11 @@ Three key factors that affect hyperparameters during training:
 
 For accessing CypherTune's hyperparameters, you can refer to the `CypherTuner` class constructor within the [train.py](https://github.com/InquestGeronimo/cyphertune/blob/main/cyphertune/train.py) module. This should provide detailed insights into the default configuration used in the tuning process.
 
-The first set is regarding [LoRA](https://huggingface.co/docs/peft/en/package_reference/lora) or the adapter:
+The first set of parameters involve the settings for [LoRA](https://huggingface.co/docs/peft/en/package_reference/lora):
 
 ```py
   # LoRA configuration settings
-  r=8,                  # The size of the LoRA adjustments. It determines the level of detail in the modifications LoRA applies.
+  r=8,                  # The size of the LoRA's rank. Opting for a higher rank could negate the efficiency benefits of using LoRA. The higher the rank the largar the checkpoint file is.
   lora_alpha=16,        # This is the scaling factor for LoRA. It controls the magnitude of the adjustments made by LoRA.
   target_modules=[      # Specifies the parts of the model where LoRA is applied. These can be components of the transformer architecture.
       "q_proj", 
@@ -101,7 +101,7 @@ The 2nd set of parameters is for the training job itself:
   gradient_accumulation_steps=1,       # Number of updates steps to accumulate before performing a backward/update pass.
   gradient_checkpointing=True,         # Enables gradient checkpointing to save memory at the expense of slower backward pass.
   max_steps=1000,                      # Total number of training steps to perform.
-  learning_rate=2.5e-5,                # Initial learning rate for the optimizer.
+  learning_rate=1e-4,                  # Initial learning rate for the optimizer.
   bf16=True,                           # Use bfloat16 mixed precision training instead of the default fp32.
   optim="paged_adamw_8bit",            # The optimizer to use, here it's a variant of AdamW optimized for 8-bit computing.
   logging_dir="./logs",                # Directory to store logs.
