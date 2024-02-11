@@ -57,7 +57,7 @@ After training completes, the adapter will be saved in your output directory. Th
 # HyperParameter Knowledge <img align="center" width="30" height="29" src="https://media.giphy.com/media/FhE5Og89nRTpt4QCet/giphy.gif">
 
 
-Configuring hyperparameters and LoRA settings can be a complex task, especially for those new to AI engineering. Our repository is designed to lessen the dependence on hyperparameters. For instance, once the Text-2-Cypher dataset is fully crowdsourced, we will undertake multiple training sessions to help us establish a set of baseline hyperparameters that are known to yield good results, thereby streamlining the fine-tuning process for Neo4j users. However, having a thorough understanding of these hyperparameters is still advantageous, particularly if you intend to modify them yourself during training.
+Configuring hyperparameters and LoRA settings can be a complex task, especially for those new to AI engineering. Our repository is designed to lessen the dependence on hyperparameters. For instance, once the Text-2-Cypher dataset is fully crowdsourced, we will undertake multiple training sessions to help us establish a set of baseline hyperparameters that are known to yield good results and saving them to this repository, thereby streamlining the fine-tuning process for Neo4j users. However, having a thorough understanding of these hyperparameters is still advantageous, particularly if you intend to modify them yourself during training.
 
 Three key factors that affect hyperparameters during training:
 
