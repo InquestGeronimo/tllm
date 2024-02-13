@@ -25,10 +25,10 @@ class CypherTuner:
     A class for fine-tuning an LLM using QLoRA.
 
     Args:
-        project_name (str): Name of the project for organization and tracking.
-        model_id (str): Identifier for the base model from Hugging Face.
-        dataset_id (str): Identifier for the dataset used for training and evaluation.
-        config_file (str): path to YAML config file.
+        project_name: Name of the project for organization and tracking.
+        model_id: Identifier for the base model from Hugging Face.
+        dataset_id: Identifier for the dataset used for training and evaluation.
+        config_file: path to YAML config file.
     """
     def __init__(self, project_name, model_id, dataset_id, config_file):
 
