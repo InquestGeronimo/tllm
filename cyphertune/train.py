@@ -13,8 +13,7 @@ from transformers import (
     TrainingArguments, 
     DataCollatorForLanguageModeling
 )
-from .utils import PromptHandler
-
+from .utils import PromptHandler, YamlFileManager as manager
 from accelerate import FullyShardedDataParallelPlugin, Accelerator
 from torch.distributed.fsdp.fully_sharded_data_parallel import FullOptimStateDictConfig, FullStateDictConfig
 
@@ -32,11 +31,22 @@ class CypherTuner:
         model_id (str): Identifier for the base model from Hugging Face.
         dataset_id (str): Identifier for the dataset used for training and evaluation.
     """
+    def __init__(self, project_name, model_id, dataset_id, config_file_path):
 
-    def __init__(self, project_name, model_id, dataset_id):
         self.project_name = project_name
         self.model_id = model_id
         self.dataset_id = dataset_id
+
+        # Parse configuration file
+        config = manager.parse_yaml_file(config_file_path)
+        if config is None:
+            raise ValueError("Failed to load configuration file.")
+
+        lora_config, trainer_config = config
+
+        # Use the parsed configurations
+        self.lora_config = LoraConfig(**lora_config.model_dump())
+        self.args = TrainingArguments(**trainer_config.model_dump())
         
         self.max_length = 340
         
@@ -45,48 +55,6 @@ class CypherTuner:
             bnb_4bit_use_double_quant=True,
             bnb_4bit_quant_type="nf4",
             bnb_4bit_compute_dtype=torch.bfloat16,
-        )
-        
-        # LoRA configuration settings
-        self.lora_config = LoraConfig(
-            r=8,
-            lora_alpha=16,
-            target_modules=[
-                "q_proj",
-                "k_proj",
-                "v_proj",
-                "o_proj",
-                "gate_proj",
-                "up_proj",
-                "down_proj",
-                "lm_head",
-            ],
-            bias="none",
-            lora_dropout=0.05,
-            task_type="CAUSAL_LM",
-        )
-        
-        # Trainer configuration settings
-        self.args = TrainingArguments(
-            output_dir="./output",
-            warmup_steps=5,
-            per_device_train_batch_size=2,
-            gradient_accumulation_steps=1,
-            gradient_checkpointing=True,
-            max_steps=1000,
-            learning_rate=2e-5,
-            bf16=True,
-            optim="paged_adamw_8bit",
-            logging_dir="./logs",
-            logging_steps=50,
-            save_strategy="steps",
-            save_steps=25,
-            evaluation_strategy="steps",
-            eval_steps=50,
-            do_eval=True,
-            report_to="wandb",
-            remove_unused_columns=True,
-            run_name=f"{self.project_name}-{datetime.now().strftime('%Y-%m-%d-%H-%M')}",
         )
         
         self.accelerator = Accelerator(fsdp_plugin=fsdp_plugin)
