@@ -18,7 +18,7 @@ CypherTune streamlines the training process by abstracting several libraries fro
 
 - **LLM Fine-Tuning**: Fine-tunes LLMs using HF's `Trainer` for custom text-to-Cypher datasets stored in the [Hub](https://huggingface.co/datasets).
 - **Bits and Bytes**: Loads model with 4-bit quantization.
-- **PEFT**: Uses [LoRA](https://arxiv.org/pdf/2106.09685.pdf) under the hood, a popular and lightweight training technique that significantly reduces the number of trainable parameters. We combine 4-bit quantization lowering the barrier for the amount of memory required during training (QLoRA). FYI, LLM fine-tuning is mostly a memory bound task.
+- **PEFT**: Uses [LoRA](https://arxiv.org/pdf/2106.09685.pdf) under the hood, a popular and lightweight training technique that significantly reduces the number of trainable parameters. We combine 4-bit quantization lowering the barrier for the amount of memory required during training ([QLoRA](https://arxiv.org/abs/2305.14314)). FYI, LLM fine-tuning is mostly a memory bound task.
 - **Dataset Preprocessing**: Converts dataset into a prompt template for fine-tuning.
 - **Weights & Biases Integration**: Track and log your experiments using wandb.
 
