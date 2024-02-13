@@ -37,11 +37,7 @@ class CypherTuner:
         self.dataset_id = dataset_id
 
         # Parse configuration file
-        config = manager.parse_yaml_file(config_file)
-        if config is None:
-            raise ValueError("Failed to load configuration file.")
-
-        lora_config, trainer_config = config
+        lora_config, trainer_config = manager.parse_yaml_file(config_file)
 
         # Use the parsed configurations
         self.lora_config = LoraConfig(**lora_config.model_dump())
