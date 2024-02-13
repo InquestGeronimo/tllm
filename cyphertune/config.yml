@@ -32,4 +32,4 @@ TrainerConfig:
   do_eval: true
   report_to: wandb
   remove_unused_columns: true
-  run_name: run-name
+  run_name: cypher-train-1
