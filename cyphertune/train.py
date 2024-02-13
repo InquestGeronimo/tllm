@@ -28,6 +28,7 @@ class CypherTuner:
         project_name (str): Name of the project for organization and tracking.
         model_id (str): Identifier for the base model from Hugging Face.
         dataset_id (str): Identifier for the dataset used for training and evaluation.
+        config_file (str): path to YAML config file.
     """
     def __init__(self, project_name, model_id, dataset_id, config_file):
 
@@ -169,9 +170,6 @@ class CypherTuner:
     def train(self):
         """
         Prepares datasets, model, tokenizer, and configurations, and then starts the training process.
-
-        Args:
-            trainer: The trainer object configured for model training.
         """
         
         print("Preparing your training job...")
