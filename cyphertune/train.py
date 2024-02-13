@@ -31,14 +31,14 @@ class CypherTuner:
         model_id (str): Identifier for the base model from Hugging Face.
         dataset_id (str): Identifier for the dataset used for training and evaluation.
     """
-    def __init__(self, project_name, model_id, dataset_id, config_file_path):
+    def __init__(self, project_name, model_id, dataset_id, config_file):
 
         self.project_name = project_name
         self.model_id = model_id
         self.dataset_id = dataset_id
 
         # Parse configuration file
-        config = manager.parse_yaml_file(config_file_path)
+        config = manager.parse_yaml_file(config_file)
         if config is None:
             raise ValueError("Failed to load configuration file.")
 

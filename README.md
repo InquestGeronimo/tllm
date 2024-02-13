@@ -39,7 +39,17 @@ pip install cyphertune
 
 # Start Training <img align="center" width="30" height="29" src="https://media.giphy.com/media/QLcCBdBemDIqpbK6jA/giphy.gif">
 
-To start training, the minimum requirement is to pass a `project name`, and your Hugging Face `model`/`dataset` stubs. The trainer is expecting to ingest a `train` and `validation` split from your dataset prior to training. This is an [example](https://huggingface.co/datasets/zeroshot/text-2-cypher) of a placeholder dataset, designed to demonstrate the expected format for the trainer.
+To start training, the minimum requirement is to pass a `project name`, your Hugging Face `model`/`dataset` stubs and the YAML `config_file` containing hyperparameters. To gain access to the YAML file, download it prior to starting training using `curl` or `wget`.
+
+```bash
+curl -o config.yml https://raw.githubusercontent.com/InquestGeronimo/cyphertune/main/cyphertune/config.yml
+```
+
+```bash
+wget -O config.yml https://raw.githubusercontent.com/InquestGeronimo/cyphertune/main/cyphertune/config.yml
+```
+
+The trainer is expecting to ingest a `train` and `validation` split from your dataset prior to training. This is an [example](https://huggingface.co/datasets/zeroshot/text-2-cypher) of a placeholder dataset, designed to demonstrate the expected format for the trainer.
 
 ```py
 from cyphertune import CypherTuner
@@ -47,7 +57,8 @@ from cyphertune import CypherTuner
 tuner = CypherTuner(
     project_name="cyphertune-training-run1",
     model_id="codellama/CodeLlama-7b-Instruct-hf",
-    dataset_id="zeroshot/text-2-cypher"
+    dataset_id="zeroshot/text-2-cypher",
+    config_file="./config.yml"
 )
 
 tuner.train()
@@ -65,7 +76,7 @@ Three key factors affect hyperparameters during training:
 2. The type and size of the model.
 3. The type and quantity of hardware.
 
-For accessing CypherTune's hyperparameters, you can refer to the `CypherTuner` class constructor within the [train.py](https://github.com/InquestGeronimo/cyphertune/blob/main/cyphertune/train.py) module.
+For accessing CypherTune's hyperparameters, you can refer to the [config_file](https://github.com/InquestGeronimo/cyphertune/blob/main/cyphertune/config.yml).
 
 The first set of parameters you should be aware of are the settings for [LoRA](https://huggingface.co/docs/peft/en/package_reference/lora):
 
