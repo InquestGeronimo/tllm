@@ -78,7 +78,7 @@ Three key factors affect hyperparameters during training:
 
 For accessing CypherTune's hyperparameters, you can refer to the [config_file](https://github.com/InquestGeronimo/cyphertune/blob/main/cyphertune/config.yml). At the time of writing, the Text-2-Cypher dataset is not publicly available, so the parameters in the file serve as placeholders.
 
-The first set of parameters you should be aware of are the settings for [LoRA](https://huggingface.co/docs/peft/en/package_reference/lora):
+The first set of parameters pertains to the [LoRA](https://huggingface.co/docs/peft/en/package_reference/lora) settings:
 
 ```py
   # LoRA configuration settings
@@ -101,7 +101,7 @@ The first set of parameters you should be aware of are the settings for [LoRA](h
 
 For further details, refer to the PEFT [documentation](https://huggingface.co/docs/peft/en/package_reference/lora) or read the blogs found at the end of this README.
 
-The 2nd set of parameters is regarding the training job itself:
+The following set pertains specifically to the training arguments:
 
 ```py
   # Trainer configuration settings
