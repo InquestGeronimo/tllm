@@ -39,7 +39,7 @@ pip install cyphertune
 
 # Start Training <img align="center" width="30" height="29" src="https://media.giphy.com/media/QLcCBdBemDIqpbK6jA/giphy.gif">
 
-To start training, pass a `project name`, your Hugging Face `model`/`dataset` stubs and the path to your YAML `config_file`. This file includes the essential LoRA and training arguments for fine-tuning. Before beginning the training process, ensure you download the YAML file from this repository using either the curl or wget commands to access its contents.
+To start training, the only requirements are a `project name`, your Hugging Face `model`/`dataset` stubs and the path to your YAML `config_file`. This file includes the essential LoRA and training arguments for fine-tuning. Before beginning the training process, ensure you download the YAML file from this repository using either the curl or wget commands to access its contents.
 
 ```bash
 curl -o config.yml https://raw.githubusercontent.com/InquestGeronimo/cyphertune/main/cyphertune/config.yml
