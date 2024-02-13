@@ -76,7 +76,7 @@ Three key factors affect hyperparameters during training:
 2. The type and quantity of hardware.
 3. The size of the dataset.
 
-For accessing CypherTune's hyperparameters, you can refer to the [config_file](https://github.com/InquestGeronimo/cyphertune/blob/main/cyphertune/config.yml).
+For accessing CypherTune's hyperparameters, you can refer to the [config_file](https://github.com/InquestGeronimo/cyphertune/blob/main/cyphertune/config.yml). At the time of writing, the Text-2-Cypher dataset is not publicly available, so the parameters in the file serve as placeholders.
 
 The first set of parameters you should be aware of are the settings for [LoRA](https://huggingface.co/docs/peft/en/package_reference/lora):
 
@@ -99,7 +99,7 @@ The first set of parameters you should be aware of are the settings for [LoRA](h
   task_type="CAUSAL_LM" # Specifies the type of task. Here, it indicates the model is for causal language modeling.
 ```
 
-For further details, refer to the PEFT [documentation](https://huggingface.co/docs/peft/en/package_reference/lora) or read the blogs found at end of this README.
+For further details, refer to the PEFT [documentation](https://huggingface.co/docs/peft/en/package_reference/lora) or read the blogs found at the end of this README.
 
 The 2nd set of parameters is regarding the training job itself:
 
