@@ -49,7 +49,7 @@ curl -o config.yml https://raw.githubusercontent.com/InquestGeronimo/cyphertune/
 wget -O config.yml https://raw.githubusercontent.com/InquestGeronimo/cyphertune/main/cyphertune/config.yml
 ```
 
-The trainer is expecting to ingest a `train` and `validation` split from your dataset prior to training. This is an [example](https://huggingface.co/datasets/zeroshot/text-2-cypher) of a placeholder dataset, designed to demonstrate the expected format.
+The trainer expects to ingest a `train` and `validation` split from your dataset prior to training with a specific format. Here is an [example](https://huggingface.co/datasets/zeroshot/text-2-cypher) of a placeholder dataset, designed to demonstrate the expected format.
 
 ```py
 from cyphertune import CypherTuner
