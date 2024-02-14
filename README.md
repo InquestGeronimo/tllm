@@ -26,6 +26,7 @@ TODO
 
 > - Table storing hyperparameter configurations for select training job environments (i.e. depending on dataset size, model type/size and amount/type of compute).
 > - Model eval functionality post-training.
+> - add full list of training args to yaml.
 > - `Max length` to be determined after dataset is released.
 > - Make dataset headers dynamic, right now they are static.
 > - Provide inference snippet for testing after training.
