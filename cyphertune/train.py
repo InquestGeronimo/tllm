@@ -65,7 +65,7 @@ class CypherTuner:
 
     def load_model_and_tokenizer(self):
         """
-        Load the base model and tokenizer for the Llama 2 7B model from Hugging Face.
+        Load the base model and tokenizer.
         """
         model = AutoModelForCausalLM.from_pretrained(
             self.model_id, quantization_config=self.bnb_config, trust_remote_code=True,
