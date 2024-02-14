@@ -35,15 +35,14 @@ class CypherTuner:
         self.project_name = project_name
         self.model_id = model_id
         self.dataset_id = dataset_id
-
+        self.max_length = 340
+        
         # Parse configuration file
         lora_config, trainer_config = manager.parse_yaml_file(config_file)
 
         # Use the parsed configurations
         self.lora_config = LoraConfig(**lora_config.model_dump())
         self.args = TrainingArguments(**trainer_config.model_dump())
-        
-        self.max_length = 340
         
         self.bnb_config = BitsAndBytesConfig(
             load_in_4bit=True,
