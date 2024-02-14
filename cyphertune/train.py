@@ -1,7 +1,7 @@
 import os
 import torch
 from datasets import load_dataset
-from peft import prepare_model_for_kbit_training, LoraConfig, get_peft_model
+from peft import LoraConfig, prepare_model_for_kbit_training, get_peft_model
 import wandb
 import transformers
 from transformers import (
