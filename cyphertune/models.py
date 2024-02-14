@@ -1,6 +1,7 @@
 from pydantic import BaseModel
 from typing import List
 
+
 class LoraConfig(BaseModel):
     r: int
     lora_alpha: int

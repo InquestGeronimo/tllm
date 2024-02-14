@@ -5,7 +5,6 @@ from .models import LoraConfig, TrainerConfig
 
 
 class PromptHandler:
-    
     @staticmethod
     def set_prompt(doc: Dict[str, Any]) -> str:
         """Constructs a cypher statement based on the given document.
@@ -27,10 +26,13 @@ class PromptHandler:
             {doc["output"]}
             """
         return prompt
-    
+
+
 class YamlFileManager:
     @staticmethod
-    def parse_yaml_file(yaml_file_path: str) -> Optional[Tuple[LoraConfig, TrainerConfig]]:
+    def parse_yaml_file(
+        yaml_file_path: str,
+    ) -> Optional[Tuple[LoraConfig, TrainerConfig]]:
         """Parse a YAML file and return a tuple of LoraConfig and TrainerConfig objects.
 
         Args:

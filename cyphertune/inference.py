@@ -19,7 +19,7 @@ class InferenceHandler:
         Args:
             eval_prompt (str): The prompt for text generation.
 
-        Returns: 
+        Returns:
             str: The generated text.
         """
         model_input = self.tokenizer(eval_prompt, return_tensors="pt").to("cuda")

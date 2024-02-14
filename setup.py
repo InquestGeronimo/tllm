@@ -23,7 +23,7 @@ DEPENDENCIES = [
     "transformers>=4.37.2",
     "wandb>=0.16.3",
     "scipy>=1.11.4",
-    "pydantic>=2.6.1"
+    "pydantic>=2.6.1",
 ]
 KEYWORDS = ["llms", "training", "fine-tuning", "LLM", "NLP"]
 CLASSIFIERS = [

@@ -5,20 +5,26 @@ from peft import LoraConfig, prepare_model_for_kbit_training, get_peft_model
 import wandb
 import transformers
 from transformers import (
-    AutoTokenizer, 
-    AutoModelForCausalLM, 
-    BitsAndBytesConfig, 
-    TrainingArguments, 
-    DataCollatorForLanguageModeling
+    AutoTokenizer,
+    AutoModelForCausalLM,
+    BitsAndBytesConfig,
+    TrainingArguments,
+    DataCollatorForLanguageModeling,
 )
 from .utils import PromptHandler, YamlFileManager as manager
 from accelerate import FullyShardedDataParallelPlugin, Accelerator
-from torch.distributed.fsdp.fully_sharded_data_parallel import FullOptimStateDictConfig, FullStateDictConfig
+from torch.distributed.fsdp.fully_sharded_data_parallel import (
+    FullOptimStateDictConfig,
+    FullStateDictConfig,
+)
 
 fsdp_plugin = FullyShardedDataParallelPlugin(
     state_dict_config=FullStateDictConfig(offload_to_cpu=True, rank0_only=False),
-    optim_state_dict_config=FullOptimStateDictConfig(offload_to_cpu=True, rank0_only=False),
+    optim_state_dict_config=FullOptimStateDictConfig(
+        offload_to_cpu=True, rank0_only=False
+    ),
 )
+
 
 class CypherTuner:
     """
@@ -30,27 +36,27 @@ class CypherTuner:
         dataset_id: Identifier for the dataset used for training and evaluation.
         config_file: path to YAML config file.
     """
-    def __init__(self, project_name, model_id, dataset_id, config_file):
 
+    def __init__(self, project_name, model_id, dataset_id, config_file):
         self.project_name = project_name
         self.model_id = model_id
         self.dataset_id = dataset_id
         self.max_length = 340
-        
+
         # Parse configuration file
         lora_config, trainer_config = manager.parse_yaml_file(config_file)
 
         # Use the parsed configurations
         self.lora_config = LoraConfig(**lora_config.model_dump())
         self.args = TrainingArguments(**trainer_config.model_dump())
-        
+
         self.bnb_config = BitsAndBytesConfig(
             load_in_4bit=True,
             bnb_4bit_use_double_quant=True,
             bnb_4bit_quant_type="nf4",
             bnb_4bit_compute_dtype=torch.bfloat16,
         )
-        
+
         self.accelerator = Accelerator(fsdp_plugin=fsdp_plugin)
 
     def load_datasets(self):
@@ -59,7 +65,7 @@ class CypherTuner:
         """
         train_dataset = load_dataset(path=self.dataset_id, split="train")
         eval_dataset = load_dataset(path=self.dataset_id, split="validation")
-        
+
         return train_dataset, eval_dataset
 
     def load_model_and_tokenizer(self):
@@ -67,18 +73,20 @@ class CypherTuner:
         Load the base model and tokenizer.
         """
         model = AutoModelForCausalLM.from_pretrained(
-            self.model_id, quantization_config=self.bnb_config, trust_remote_code=True,
+            self.model_id,
+            quantization_config=self.bnb_config,
+            trust_remote_code=True,
         )
 
         tokenizer = AutoTokenizer.from_pretrained(
             self.model_id,
             padding_side="left",
-            add_eos_token=True,  
-            add_bos_token=True,  
+            add_eos_token=True,
+            add_bos_token=True,
         )
-        
+
         return model, tokenizer
-    
+
     def create_prompts_from_datasets(self, tokenizer, train_data, eval_data):
         """
         Create and tokenize prompts from the datasets.
@@ -101,12 +109,12 @@ class CypherTuner:
                 padding="max_length",
             )
             result["labels"] = result["input_ids"].copy()
-            
+
             return result
-        
+
         def generate_and_tokenize_prompt(doc):
             return tokenize(PromptHandler.set_prompt(doc))
-        
+
         tokenized_train_dataset = train_data.map(generate_and_tokenize_prompt)
         tokenized_eval_dataset = eval_data.map(generate_and_tokenize_prompt)
 
@@ -161,17 +169,19 @@ class CypherTuner:
             os.environ["WANDB_PROJECT"] = wandb_project
 
         return trainer
-    
+
     def train(self):
         """
         Prepares datasets, model, tokenizer, and configurations, and then starts the training process.
         """
-        
+
         print("Preparing your training job...")
 
         train_data, eval_data = self.load_datasets()
         model, tokenizer = self.load_model_and_tokenizer()
-        train_data, eval_data = self.create_prompts_from_datasets(tokenizer, train_data, eval_data)
+        train_data, eval_data = self.create_prompts_from_datasets(
+            tokenizer, train_data, eval_data
+        )
         model = self.configure_lora(model)
         trainer = self.configure_training(model, tokenizer, train_data, eval_data)
         trainer.train()
