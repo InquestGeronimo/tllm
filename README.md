@@ -1,5 +1,5 @@
 <div align="center">
-    <img width="400" height="350" src="/img/tllm-logo.jpg">
+    <img width="400" height="350" src="/img/logo.jpg">
 </div>
 
 **tLLM** is an encapsulated Python library designed to fine-tune large language models (LLMs).
