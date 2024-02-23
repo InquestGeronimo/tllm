@@ -2,13 +2,13 @@
     <img width="400" height="350" src="/img/logo.jpg">
 </div>
 
-**tLLM** is a comprehensive Python library that simplifies the fine-tuning of large language models (LLMs). It is specifically designed to abstract away complexities associated with various libraries from the Hugging Face ecosystem, offering a more encapsulated and user-friendly approach.
+**tLLM** is a comprehensive Python library that simplifies the fine-tuning of large language models (LLMs) for text generation. It is specifically designed to abstract away complexities associated with various libraries from the Hugging Face ecosystem, offering a more encapsulated and user-friendly approach.
 
 Our goal with tLLM is to simplify the process of fine-tuning LLMs, making it more accessible, especially for individuals who are new to the realm of AI. The aim is to lower the barrier of entry for new users to fine-tune LLMs using the state-of-the-art open source stack 🚀🚀.
 
-# Features <img align="center" width="30" height="29" src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExOTBqaWNrcGxnaTdzMGRzNTN0bGI2d3A4YWkxajhsb2F5MW84Z2dxaCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/26tOZ42Mg6pbTUPHW/giphy.gif">
+Fine-tuning with large language models helps tailor or constrain the LLM's output to a select downstream task's format. The more specific the format requirements of your task, the more beneficial fine-tuning will be.
 
-tLLM currently offers the following features:
+# Features <img align="center" width="30" height="29" src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExOTBqaWNrcGxnaTdzMGRzNTN0bGI2d3A4YWkxajhsb2F5MW84Z2dxaCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/26tOZ42Mg6pbTUPHW/giphy.gif">
 
 - **LLM Fine-Tuning**: Fine-tunes LLMs using HF's `Trainer` for custom datasets stored in the [Hub](https://huggingface.co/datasets).
 - **Bits and Bytes**: Loads model with 4-bit quantization.
@@ -21,7 +21,6 @@ TODO
 > - Table storing hyperparameter configurations for select training job environments (i.e. depending on dataset size, model type/size and amount/type of compute).
 > - Model eval functionality post-training.
 > - add full list of training args to yaml.
-> - Make dataset headers dynamic, right now they are static.
 > - Provide inference snippet for testing after training.
 > - Fully Sharded Data Parallel (FSDP): Utilizes efficient training across distributed systems.
 
@@ -31,25 +30,38 @@ TODO
 pip install tllm
 ```
 
+# Dataset Format <img align="center" width="30" height="29" src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExbjJmZmEyZ2hsZ2Jyd3c2cDRweWt2dTFyOWJybHp0YTFvc2Q0ZGp1bCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/4ZkydYFRV6CYprhvF7/giphy.gif">
+
+The trainer expects to ingest a `train` and `validation` split from your dataset prior to training with a specific format. More specificaly, your custom dataset will require `schema` , `input` , and `output` headers. Here is an [example](https://huggingface.co/datasets/zeroshot/text-2-cypher) of a placeholder dataset, designed to demonstrate the expected format.
+
+The following tasks are supported for downstream text generation: 
+
+- `text2sql` : generates SQL query from question in natural language
+- `text2cypher` : generates Cypher query from question in natural language
+- `input2output` : custom task for generating custom output. If this is selected, you must include a `context` parameter in the Trainer constructor. This context provides guidance to the LLM on interpreting the `input` and `output` texts. For instance, if your task is to summarize news articles, the context would be defined as: `Given a news article, construct a summary paragraph ...` etc.
+
+Prompt templates for supported tasks can be found in the [PromptHandler](https://github.com/InquestGeronimo/tllm/blob/main/tllm/utils.py) class.
+
 # Start Training <img align="center" width="30" height="29" src="https://media.giphy.com/media/QLcCBdBemDIqpbK6jA/giphy.gif">
 
-To start training, the only requirements are a `project name`, your Hugging Face `model`/`dataset` stubs and the path to your YAML `config_file`. This file includes the essential LoRA and training arguments for fine-tuning. Before beginning the training process, ensure you download the YAML file from this repository using either the curl or wget commands to access its contents.
+To start training, the only requirements are a `project name`, `task`, your Hugging Face `model`/`dataset` stubs and the path to your YAML `config_file`. This file includes the essential tokenizer, LoRA and training arguments for fine-tuning. Before beginning the training process, ensure you download the YAML file from this repository using either the curl or wget commands to access its contents. As previously stated, if your `task` is **input2output**, you'll need to add an additional `context` parameter to the constructor.
 
 ```bash
-curl -o config.yml https://raw.githubusercontent.com/InquestGeronimo/tllm/main/tllm/config.yml
+curl -o config.yml https://raw.githubusercontent.com/InquestGeronimo/tllm/main/config.yml
 ```
 
 ```bash
-wget -O config.yml https://raw.githubusercontent.com/InquestGeronimo/tllm/main/tllm/config.yml
+wget -O config.yml https://raw.githubusercontent.com/InquestGeronimo/tllm/main/config.yml
 ```
 
-The trainer expects to ingest a `train` and `validation` split from your dataset prior to training with a specific format. Here is an [example](https://huggingface.co/datasets/zeroshot/text-2-cypher) of a placeholder dataset, designed to demonstrate the expected format for the text-2-cypher task.
+Run the trainer:
 
 ```py
 from tllm import Trainer
 
 tllm = Trainer(
     project_name="tllm-training-run1",
+    task="text2cypher", # tex2sql or input2output
     model_id="codellama/CodeLlama-7b-Instruct-hf",
     dataset_id="zeroshot/text-2-cypher",
     config_file="path/to/config.yml"
