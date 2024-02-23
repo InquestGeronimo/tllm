@@ -2,15 +2,15 @@
     <img width="400" height="350" src="/img/logo.jpg">
 </div>
 
-**tLLM** is an encapsulated Python library designed to fine-tune large language models (LLMs).
+**tLLM** is a comprehensive Python library that simplifies the fine-tuning of large language models (LLMs). It is specifically designed to abstract away complexities associated with various libraries from the Hugging Face ecosystem, offering a more encapsulated and user-friendly approach.
 
-Our goal with tLLM is to simplify the process of fine-tuning LLMs, making it more accessible, especially for individuals who are new to the realm of AI. We aim to lower the barrier of entry for new users to fine-tune LLMs using the current state-of-the-art open source stack 🚀🚀.
+Our goal with tLLM is to simplify the process of fine-tuning LLMs, making it more accessible, especially for individuals who are new to the realm of AI. The aim is to lower the barrier of entry for new users to fine-tune LLMs using the state-of-the-art open source stack 🚀🚀.
 
 # Features <img align="center" width="30" height="29" src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExOTBqaWNrcGxnaTdzMGRzNTN0bGI2d3A4YWkxajhsb2F5MW84Z2dxaCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/26tOZ42Mg6pbTUPHW/giphy.gif">
 
-tLLM streamlines the training process by abstracting several libraries from the Hugging Face ecosystem. It currently offers the following features:
+tLLM currently offers the following features:
 
-- **LLM Fine-Tuning**: Fine-tunes LLMs using HF's `Trainer` for custom text-to-Cypher datasets stored in the [Hub](https://huggingface.co/datasets).
+- **LLM Fine-Tuning**: Fine-tunes LLMs using HF's `Trainer` for custom datasets stored in the [Hub](https://huggingface.co/datasets).
 - **Bits and Bytes**: Loads model with 4-bit quantization.
 - **PEFT**: Uses [LoRA](https://arxiv.org/pdf/2106.09685.pdf) under the hood, a popular and lightweight training technique that significantly reduces the number of trainable parameters. We combine 4-bit quantization lowering the barrier for the amount of memory required during training ([QLoRA](https://arxiv.org/abs/2305.14314)).
 - **Dataset Preprocessing**: Converts dataset into a prompt template for fine-tuning.
