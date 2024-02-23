@@ -1,20 +1,18 @@
 <div align="center">
-    <img width="400" height="350" src="/img/cyphertune-logo.webp">
+    <img width="800" height="350" src="/img/tllm-logo.jpg">
 </div>
 
 <h5 align="center">
   ⚠️<em>Under Active Development</em> ⚠️
 </h5>
 
-**CypherTune** is an encapsulated Python library designed to fine-tune large language models (LLMs) specifically for text-2-Cypher tasks. [Cypher](https://neo4j.com/developer/cypher/), the graph query language utilized by Neo4j, is renowned for its efficiency in data retrieval from knowledge graphs. Its user-friendly nature, drawing parallels with SQL, is attributed to an intuitive syntax that resonates well with those familiar with traditional programming languages.
+**tLLM** is an encapsulated Python library designed to fine-tune large language models (LLMs).
 
-This repository takes inspiration from Neo4j's recent [initiative](https://bratanic-tomaz.medium.com/crowdsourcing-text2cypher-dataset-e65ba51916d4) to create their inaugural open-source text-2-Cypher dataset. Our goal with CypherTune is to simplify the process of fine-tuning LLMs, making it more accessible, especially for individuals who are new to the realm of AI. We aim to lower the barrier of entry for Neo4j users to fine-tune LLMs using the text-2-Cypher dataset once it's released to the public.
-
-Contributions and participation in this crowdsourcing effort is welcomed! If you're interested in being a part of this exciting initiative, feel free to join and contribute to Neo4j's [application](https://text2cypher.vercel.app/) 🚀🚀.
+Our goal with tLLM is to simplify the process of fine-tuning LLMs, making it more accessible, especially for individuals who are new to the realm of AI. We aim to lower the barrier of entry for new users to fine-tune LLMs using the current state-of-the-art open source stack 🚀🚀.
 
 # Features <img align="center" width="30" height="29" src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExOTBqaWNrcGxnaTdzMGRzNTN0bGI2d3A4YWkxajhsb2F5MW84Z2dxaCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/26tOZ42Mg6pbTUPHW/giphy.gif">
 
-CypherTune streamlines the training process by abstracting several libraries from the Hugging Face ecosystem. It currently offers the following features:
+tLLM streamlines the training process by abstracting several libraries from the Hugging Face ecosystem. It currently offers the following features:
 
 - **LLM Fine-Tuning**: Fine-tunes LLMs using HF's `Trainer` for custom text-to-Cypher datasets stored in the [Hub](https://huggingface.co/datasets).
 - **Bits and Bytes**: Loads model with 4-bit quantization.
@@ -27,7 +25,6 @@ TODO
 > - Table storing hyperparameter configurations for select training job environments (i.e. depending on dataset size, model type/size and amount/type of compute).
 > - Model eval functionality post-training.
 > - add full list of training args to yaml.
-> - `Max length` to be determined after dataset is released.
 > - Make dataset headers dynamic, right now they are static.
 > - Provide inference snippet for testing after training.
 > - Fully Sharded Data Parallel (FSDP): Utilizes efficient training across distributed systems.
