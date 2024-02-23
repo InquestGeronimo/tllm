@@ -43,7 +43,7 @@ curl -o config.yml https://raw.githubusercontent.com/InquestGeronimo/tllm/main/t
 wget -O config.yml https://raw.githubusercontent.com/InquestGeronimo/tllm/main/tllm/config.yml
 ```
 
-The trainer expects to ingest a `train` and `validation` split from your dataset prior to training with a specific format. Here is an [example](https://huggingface.co/datasets/zeroshot/text-2-cypher) of a placeholder dataset, designed to demonstrate the expected format.
+The trainer expects to ingest a `train` and `validation` split from your dataset prior to training with a specific format. Here is an [example](https://huggingface.co/datasets/zeroshot/text-2-cypher) of a placeholder dataset, designed to demonstrate the expected format for the text-2-cypher task.
 
 ```py
 from tllm import Trainer
@@ -62,7 +62,7 @@ After training completes, the adapter will be saved in your output directory. Th
 # HyperParameter Knowledge <img align="center" width="30" height="29" src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExMXV1bWFyMWxkY3JocjE1ZDMxMWZ5OHZtejFkbHpuZXdveTV3Z3BiciZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/bGgsc5mWoryfgKBx1u/giphy.gif">
 
 
-Configuring hyperparameters and LoRA settings can be a complex task, especially for those new to AI engineering. Our repository is designed to lessen the dependence on hyperparameters. For instance, once the Text-2-Cypher dataset is fully crowdsourced, we will undertake multiple training sessions. This will help us establish a set of baseline hyperparameters known to yield good results, and we will save them to this repository, thereby streamlining the fine-tuning process for Neo4j users. However, having a thorough understanding of these hyperparameters is still advantageous, particularly if you intend to modify them yourself.
+Configuring hyperparameters and LoRA settings can be a complex task, especially for those new to AI engineering. Our repository is designed to lessen the dependence on hyperparameters. We hope to establish a set of baseline hyperparameters known to yield good results on specific tasks, and we will save them to this repository, thereby streamlining the fine-tuning process for users. However, having a thorough understanding of these hyperparameters is still advantageous, particularly if you intend to modify them yourself.
 
 Three key factors affect hyperparameters during training:
 
@@ -70,7 +70,7 @@ Three key factors affect hyperparameters during training:
 2. The type and quantity of hardware.
 3. The size of the dataset.
 
-For accessing tllm's hyperparameters, you can refer to the [config_file](https://github.com/InquestGeronimo/tllm/blob/main/tllm/config.yml). At the time of writing, the Text-2-Cypher dataset is not publicly available, so the parameters in the file serve as placeholders.
+For accessing tllm's hyperparameters, you can refer to the [config_file](https://github.com/InquestGeronimo/tllm/blob/main/tllm/config.yml). Present parameters in the serve as placeholders.
 
 The first set of parameters pertains to the [LoRA](https://huggingface.co/docs/peft/en/package_reference/lora) settings:
 
