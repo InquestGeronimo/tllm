@@ -1,10 +1,6 @@
 <div align="center">
-    <img width="800" height="350" src="/img/tllm-logo.jpg">
+    <img width="400" height="350" src="/img/tllm-logo.jpg">
 </div>
-
-<h5 align="center">
-  ⚠️<em>Under Active Development</em> ⚠️
-</h5>
 
 **tLLM** is an encapsulated Python library designed to fine-tune large language models (LLMs).
 
@@ -52,14 +48,14 @@ The trainer expects to ingest a `train` and `validation` split from your dataset
 ```py
 from tllm import Trainer
 
-trainer = Trainer(
+tllm = Trainer(
     project_name="tllm-training-run1",
     model_id="codellama/CodeLlama-7b-Instruct-hf",
     dataset_id="zeroshot/text-2-cypher",
     config_file="path/to/config.yml"
 )
 
-trainer.train()
+tllm.train()
 ```
 After training completes, the adapter will be saved in your output directory. The pre-trained model will not be saved.
 
