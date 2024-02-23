@@ -32,7 +32,7 @@ TODO
 # Install <img align="center" width="30" height="29" src="https://media.giphy.com/media/sULKEgDMX8LcI/giphy.gif">
 
 ```
-pip install cyphertune
+pip install tllm
 ```
 
 # Start Training <img align="center" width="30" height="29" src="https://media.giphy.com/media/QLcCBdBemDIqpbK6jA/giphy.gif">
@@ -40,26 +40,26 @@ pip install cyphertune
 To start training, the only requirements are a `project name`, your Hugging Face `model`/`dataset` stubs and the path to your YAML `config_file`. This file includes the essential LoRA and training arguments for fine-tuning. Before beginning the training process, ensure you download the YAML file from this repository using either the curl or wget commands to access its contents.
 
 ```bash
-curl -o config.yml https://raw.githubusercontent.com/InquestGeronimo/cyphertune/main/cyphertune/config.yml
+curl -o config.yml https://raw.githubusercontent.com/InquestGeronimo/tllm/main/tllm/config.yml
 ```
 
 ```bash
-wget -O config.yml https://raw.githubusercontent.com/InquestGeronimo/cyphertune/main/cyphertune/config.yml
+wget -O config.yml https://raw.githubusercontent.com/InquestGeronimo/tllm/main/tllm/config.yml
 ```
 
 The trainer expects to ingest a `train` and `validation` split from your dataset prior to training with a specific format. Here is an [example](https://huggingface.co/datasets/zeroshot/text-2-cypher) of a placeholder dataset, designed to demonstrate the expected format.
 
 ```py
-from cyphertune import CypherTuner
+from tllm import Trainer
 
-tuner = CypherTuner(
-    project_name="cyphertune-training-run1",
+trainer = Trainer(
+    project_name="tllm-training-run1",
     model_id="codellama/CodeLlama-7b-Instruct-hf",
     dataset_id="zeroshot/text-2-cypher",
     config_file="path/to/config.yml"
 )
 
-tuner.train()
+trainer.train()
 ```
 After training completes, the adapter will be saved in your output directory. The pre-trained model will not be saved.
 
@@ -74,7 +74,7 @@ Three key factors affect hyperparameters during training:
 2. The type and quantity of hardware.
 3. The size of the dataset.
 
-For accessing CypherTune's hyperparameters, you can refer to the [config_file](https://github.com/InquestGeronimo/cyphertune/blob/main/cyphertune/config.yml). At the time of writing, the Text-2-Cypher dataset is not publicly available, so the parameters in the file serve as placeholders.
+For accessing tllm's hyperparameters, you can refer to the [config_file](https://github.com/InquestGeronimo/tllm/blob/main/tllm/config.yml). At the time of writing, the Text-2-Cypher dataset is not publicly available, so the parameters in the file serve as placeholders.
 
 The first set of parameters pertains to the [LoRA](https://huggingface.co/docs/peft/en/package_reference/lora) settings:
 
