@@ -38,7 +38,7 @@ The following tasks are supported for downstream text generation:
 
 - `text2sql` : generates SQL query from question in natural language
 - `text2cypher` : generates Cypher query from question in natural language
-- `input2output` : custom task for generating custom output. If this is selected, you must include a `context` parameter in the Trainer constructor. This context provides guidance to the LLM on interpreting the `input` and `output` texts. For instance, if your task is to summarize news articles, the context would be defined as: `Given a news article, construct a summary paragraph ...` etc.
+- `input2output` : custom task for generating custom output. If this is selected, you must include a `context` parameter in the Trainer constructor. This context provides guidance to the LLM on interpreting the input and output texts. For instance, if your task is to summarize news articles, the context would be defined as: "Given a news article, construct a summary paragraph ..." etc.
 
 Prompt templates for supported tasks can be found in the [PromptHandler](https://github.com/InquestGeronimo/tllm/blob/main/tllm/utils.py) class.
 
