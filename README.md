@@ -2,9 +2,9 @@
     <img width="400" height="350" src="/img/logo.jpg">
 </div>
 
-**tLLM** is a comprehensive Python library that simplifies the fine-tuning of large language models (LLMs) for text generation. It is specifically designed to abstract away complexities associated with various libraries from the Hugging Face ecosystem, offering a more encapsulated and user-friendly approach.
+**tLLM** is a comprehensive Python library that simplifies the fine-tuning of large language models (LLMs) for instruction-tuning. It is specifically designed to abstract away complexities associated with various libraries from the Hugging Face ecosystem, offering a more encapsulated and user-friendly approach.
 
-Our goal with tLLM is to simplify the process of fine-tuning LLMs, making it more accessible, especially for individuals who are new to the realm of AI. The aim is to lower the barrier of entry for new users to fine-tune LLMs using the state-of-the-art open source stack 🚀🚀.
+Our goal with tLLM is to simplify the process of fine-tuning LLMs, making it more accessible, especially for individuals who are new to the realm of AI. The aim is to lower the barrier of entry using the state-of-the-art open source stack 🚀🚀.
 
 Fine-tuning with large language models helps tailor or constrain the LLM's output to a select downstream task's format. The more specific the format requirements of your task, the more beneficial fine-tuning will be.
 
