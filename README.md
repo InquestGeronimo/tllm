@@ -18,9 +18,9 @@ The purpose of fine-tuning LLMs is to tailor or constrain its output to a downst
 
 TODO
 
-> - Table storing hyperparameter configurations for select training job environments (i.e. depending on dataset size, model type/size and amount/type of compute).
+> - Surface the prompt templates.
 > - Model eval functionality post-training.
-> - add full list of training args to yaml.
+> - Add full list of training args to yaml.
 > - Provide inference snippet for testing after training.
 > - Fully Sharded Data Parallel (FSDP): Utilizes efficient training across distributed systems.
 
