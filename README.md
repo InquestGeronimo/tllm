@@ -27,7 +27,7 @@ TODO
 # Install <img align="center" width="30" height="29" src="https://media.giphy.com/media/sULKEgDMX8LcI/giphy.gif">
 
 ```
-pip install tllm
+pip install trainllm
 ```
 
 # Dataset Format <img align="center" width="30" height="29" src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExbjJmZmEyZ2hsZ2Jyd3c2cDRweWt2dTFyOWJybHp0YTFvc2Q0ZGp1bCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/4ZkydYFRV6CYprhvF7/giphy.gif">
