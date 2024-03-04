@@ -2,7 +2,7 @@
     <img width="400" height="350" src="/img/logo.jpg">
 </div>
 
-**tLLM** is a comprehensive Python library that simplifies the fine-tuning of large language models (LLMs) for instruction-tuning on custom datasets. It is specifically designed to abstract away complexities associated with various libraries from the Hugging Face ecosystem, offering a more encapsulated and user-friendly approach.
+**tLLM** is a comprehensive Python library that simplifies the fine-tuning of LLMs for instruction-tuning on custom datasets. It is specifically designed to abstract away complexities associated with various libraries from the Hugging Face ecosystem, offering a more encapsulated and user-friendly approach.
 
 Our goal with tLLM is to simplify the process of fine-tuning LLMs, making it more accessible, especially for individuals who are new to the realm of AI. The aim is to lower the barrier of entry using the state-of-the-art open source stack 🚀🚀.
 
@@ -32,7 +32,7 @@ pip install tllm
 
 # Dataset Format <img align="center" width="30" height="29" src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExbjJmZmEyZ2hsZ2Jyd3c2cDRweWt2dTFyOWJybHp0YTFvc2Q0ZGp1bCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/4ZkydYFRV6CYprhvF7/giphy.gif">
 
-The trainer expects to ingest a `train` and `validation` split from your dataset prior to training with a specific format. More specificaly, your custom dataset will require `schema` , `input` , and `output` headers. Here is an [example](https://huggingface.co/datasets/zeroshot/text-2-cypher) of a placeholder dataset, designed to demonstrate the expected format.
+The trainer expects to ingest a `train` and `validation` split from your dataset prior to training with a specific format. More specifically, your custom dataset will require `schema` , `input` , and `output` headers. Here is an [example](https://huggingface.co/datasets/zeroshot/text-2-cypher) of a placeholder dataset, designed to demonstrate the expected format.
 
 The following tasks are supported for downstream text generation: 
 
