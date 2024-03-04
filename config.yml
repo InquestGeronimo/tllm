@@ -1,3 +1,8 @@
+TokenizerConfig:
+  max_length: 340
+  truncation: true
+  padding: max_length
+
 LoraConfig:
   r: 8
   lora_alpha: 16
@@ -17,7 +22,7 @@ LoraConfig:
 TrainerConfig:
   output_dir: ./output
   warmup_steps: 1
-  per_device_train_batch_size: 32
+  per_device_train_batch_size: 8
   gradient_accumulation_steps: 1
   gradient_checkpointing: true
   max_steps: 1000
@@ -32,4 +37,4 @@ TrainerConfig:
   do_eval: true
   report_to: wandb
   remove_unused_columns: true
-  run_name: cypher-train-1
+  run_name: train-job

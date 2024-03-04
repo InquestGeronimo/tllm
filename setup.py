@@ -7,12 +7,12 @@ here = os.path.abspath(os.path.dirname(__file__))
 with codecs.open(os.path.join(here, "README.md"), encoding="utf-8") as fh:
     LONG_DESCRIPTION = "\n" + fh.read()
 
-NAME = "cyphertune"
-VERSION = "0.0.0.3"
+NAME = "tllm"
+VERSION = "0.0.0.4"
 AUTHOR = "InquestGeronimo"
 EMAIL = "rcostanl@gmail.com"
 LD_CONTENT_TYPE = "text/markdown"
-DESCRIPTION = "A Trainer for Fine-tuning LLMs for Text-to-Cypher Datasets"
+DESCRIPTION = "Fine-tuning LLMs for instruction using QLoRA."
 LICENSE = "Apache 2.0 license"
 PACKAGES = find_packages()
 DEPENDENCIES = [

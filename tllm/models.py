@@ -1,5 +1,12 @@
 from pydantic import BaseModel
-from typing import List
+from typing import List, Union
+from transformers.tokenization_utils import PaddingStrategy, TruncationStrategy
+
+
+class TokenizerConfig(BaseModel):
+    max_length: int
+    truncation: Union[bool, str, TruncationStrategy]
+    padding: Union[bool, str, PaddingStrategy]
 
 
 class LoraConfig(BaseModel):

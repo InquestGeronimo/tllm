@@ -1,5 +1,6 @@
 import os
 import torch
+import datetime
 from datasets import load_dataset
 from peft import LoraConfig, prepare_model_for_kbit_training, get_peft_model
 import wandb
@@ -11,7 +12,7 @@ from transformers import (
     TrainingArguments,
     DataCollatorForLanguageModeling,
 )
-from .utils import PromptHandler, YamlFileManager as manager
+from .utils import ErrorHandler as fixer, PromptHandler, YamlFileManager as manager
 from accelerate import FullyShardedDataParallelPlugin, Accelerator
 from torch.distributed.fsdp.fully_sharded_data_parallel import (
     FullOptimStateDictConfig,
@@ -26,7 +27,7 @@ fsdp_plugin = FullyShardedDataParallelPlugin(
 )
 
 
-class CypherTuner:
+class Trainer:
     """
     A class for fine-tuning an LLM using QLoRA.
 
@@ -35,18 +36,32 @@ class CypherTuner:
         model_id: Identifier for the base model from Hugging Face.
         dataset_id: Identifier for the dataset used for training and evaluation.
         config_file: path to YAML config file.
+        context: The context required for 'input2output' task.
     """
 
-    def __init__(self, project_name, model_id, dataset_id, config_file):
+    def __init__(
+        self,
+        project_name: str,
+        task: str,
+        model_id: str,
+        dataset_id: str,
+        config_file: str,
+        context: str = None,
+    ):
+        if task == "input2output" and context is None:
+            raise ValueError(fixer.context_error)
+
         self.project_name = project_name
+        self.task = task
         self.model_id = model_id
         self.dataset_id = dataset_id
-        self.max_length = 340
+        self.context = context
 
         # Parse configuration file
-        lora_config, trainer_config = manager.parse_yaml_file(config_file)
+        token_config, lora_config, trainer_config = manager.parse_yaml_file(config_file)
 
         # Use the parsed configurations
+        self.token_config = token_config
         self.lora_config = LoraConfig(**lora_config.model_dump())
         self.args = TrainingArguments(**trainer_config.model_dump())
 
@@ -58,6 +73,17 @@ class CypherTuner:
         )
 
         self.accelerator = Accelerator(fsdp_plugin=fsdp_plugin)
+
+        current_time = datetime.datetime.now().strftime("%Y%m%d-%H%M%S")
+        self.wandb_project = f"tllm-finetune_{current_time}"
+
+    def setup_wandb(self):
+        """
+        Set up the Weights & Biases environment for logging and tracking.
+        """
+        wandb.login()
+        if self.wandb_project:
+            os.environ["WANDB_PROJECT"] = self.wandb_project
 
     def load_datasets(self):
         """
@@ -104,16 +130,25 @@ class CypherTuner:
         def tokenize(prompt):
             result = tokenizer(
                 prompt,
-                truncation=True,
-                max_length=self.max_length,
-                padding="max_length",
+                max_length=self.token_config.max_length,
+                truncation=self.token_config.truncation,
+                padding=self.token_config.padding,
             )
             result["labels"] = result["input_ids"].copy()
 
             return result
 
         def generate_and_tokenize_prompt(doc):
-            return tokenize(PromptHandler.set_prompt(doc))
+            if self.task == "text2cypher":
+                prompt = PromptHandler.set_cypher_prompt(doc)
+            elif self.task == "text2sql":
+                prompt = PromptHandler.set_sql_prompt(doc)
+            elif self.task == "input2output":
+                prompt = PromptHandler.set_custom_prompt(doc, self.context)
+            else:
+                raise ValueError(fixer.handle_task(self.task))
+
+            return tokenize(prompt)
 
         tokenized_train_dataset = train_data.map(generate_and_tokenize_prompt)
         tokenized_eval_dataset = eval_data.map(generate_and_tokenize_prompt)
@@ -163,10 +198,6 @@ class CypherTuner:
         )
 
         model.config.use_cache = False
-        wandb.login()
-        wandb_project = "tllm-finetune"
-        if len(wandb_project) > 0:
-            os.environ["WANDB_PROJECT"] = wandb_project
 
         return trainer
 
@@ -177,6 +208,7 @@ class CypherTuner:
 
         print("Preparing your training job...")
 
+        self.setup_wandb()
         train_data, eval_data = self.load_datasets()
         model, tokenizer = self.load_model_and_tokenizer()
         train_data, eval_data = self.create_prompts_from_datasets(
